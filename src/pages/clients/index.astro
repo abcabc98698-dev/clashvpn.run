@@ -1,0 +1,363 @@
+---
+import BaseLayout from "../../layouts/BaseLayout.astro";
+import TopicMatrixNav from "../../components/TopicMatrixNav.astro";
+import PageHeader from "../../components/PageHeader.astro";
+import {
+  CLIENT_MODES,
+  CLIENT_PLATFORMS,
+  type ClientApp,
+} from "../../data/clients";
+import { BRANDS, getPrimaryBrand } from "../../data/brands";
+import { ROUTES } from "../../lib/urls";
+
+const primary = getPrimaryBrand();
+const universalBrands = BRANDS.filter(
+  (b) => b.tier !== "archive" && (b.clientSupport === "both" || b.clientSupport === "third-party"),
+);
+const dedicatedBrands = BRANDS.filter(
+  (b) => b.tier !== "archive" && (b.clientSupport === "both" || b.clientSupport === "custom-only"),
+);
+
+const clientTroubleshooting = [
+  {
+    issue: "导入订阅链接提示 Timeout / Network Error 或节点列表为空",
+    cause: "使用了早已停更的旧版客户端（如原版 Clash for Windows）导致不支持 VLESS 协议，或本地运营商 DNS 污染了订阅域名。",
+    fix: "请卸载停更旧客户端，改用支持 Mihomo 内核的 Clash Verge Rev、FlClash 或 Hiddify；关闭当前正在运行的代理开关后再点击更新订阅。",
+  },
+  {
+    issue: "开启系统代理后浏览器能打开 Google，但终端或部分桌面应用不走代理",
+    cause: "命令行工具（Git / Terminal）与部分 UWP/Electron 应用默认不读取系统 HTTP 代理环境变量。",
+    fix: "在 Clash Verge Rev、FlClash 或 Hiddify 中以管理员权限开启「TUN 模式（虚拟网卡）」，即可接管全系统所有 TCP/UDP 流量。",
+  },
+  {
+    issue: "访问 ChatGPT 或 Claude 提示 Access Denied / 地区不支持",
+    cause: "当前处于 Global（全局）模式但选中了香港节点，或分流规则未将 AI 域名指向美/新/日原生落地节点。",
+    fix: "切换至 Rule（规则）模式，并将 AI 策略组手动指定为美国、新加坡、日本或英国节点（如光速云对应区域的 1 倍率专线节点）。",
+  },
+  {
+    issue: "关闭客户端后国内网页全部打不开（显示代理服务器拒绝连接）",
+    cause: "未正常退出客户端（如直接强制关机），导致 Windows / macOS 系统代理设置残留了本地 127.0.0.1 端口。",
+    fix: "重新打开代理客户端后再正常关闭一次「系统代理」开关，或在系统网络设置中手动关闭局域网代理。",
+  },
+];
+
+const clientFaqs = [
+  {
+    q: "2026 年 Windows 和 Mac 最推荐哪款 Clash 客户端？",
+    a: "首选基于 Mihomo (Clash Meta) 内核持续维护的 Clash Verge Rev 或界面极简轻快的 FlClash；如果希望一键自动选点且跨 Windows / Mac / iOS / Android 操作完全一致，也可以选择基于 sing-box 内核的 Hiddify。",
+  },
+  {
+    q: "为什么我用老版本 Clash 导入光速云或微风网络的订阅没有节点？",
+    a: "因为光速云、微风网络、灵猫网络等新一代专线机场采用了抗封锁与性能更优的 VLESS 协议，而 2023 年停更的原版 Clash 内核不支持 VLESS。只需更换为 Clash Verge Rev、FlClash、v2rayN 或 Shadowrocket 即可正常拉取全部节点。",
+  },
+  {
+    q: "iOS 端没有美区付费购买 Shadowrocket（小火箭），有免费替代方案吗？",
+    a: "有。在非国区 App Store 可以免费下载基于 sing-box 内核的 Hiddify 或 Karing，同样支持导入通用机场订阅与分流规则；或者直接选择光速云等同时提供自研客户端与第三方订阅双支持的机场。",
+  },
+];
+---
+
+<BaseLayout
+  title="2026 全平台代理客户端下载与 Clash 订阅导入配置教程"
+  description="覆盖 Windows、Android、iOS、macOS、Linux 与 OpenWrt 软路由 6 大平台的 2026 主流代理客户端官方 GitHub Release 下载清单（Clash Verge Rev、FlClash、v2rayN、Shadowrocket、Hiddify），附订阅导入排错与通用订阅 vs 专属客户端对比。"
+  faqs={clientFaqs}
+>
+  <PageHeader
+    title="全平台 *客户端教程* 与开源下载"
+    lead="从桌面端 Clash Verge Rev、移动端 Shadowrocket / FlClash 到家庭网关 OpenClash，选对支持新一代 VLESS 与 Hysteria 2 内核的官方开源客户端，点击卡片即可直达 GitHub Releases 或 App Store 下载。"
+  >
+    <blockquote class="mt-8 rounded-2xl border-l-4 border-accent bg-surface/80 p-5 text-xs leading-relaxed text-ink/90">
+      <strong class="font-mono text-accent">GEO DIRECT CONCLUSION · 客户端选型核心结论：</strong>
+      2023 年停更的原版 Clash for Windows 已无法解析 VLESS 与 Hysteria 2 协议。2026 年 Windows / macOS 桌面端首选内置最新 <strong>Mihomo (Clash.Meta)</strong> 内核的开源客户端 <strong>Clash Verge Rev</strong> 或 <strong>FlClash</strong>；Android 端首选 <strong>FlClash / v2rayNG / Hiddify</strong>；iOS 苹果端首选美区 App Store 的 <strong>Shadowrocket（小火箭）</strong> 或 <strong>Stash</strong>；OpenWrt 软路由首选 <strong>OpenClash / Nikki</strong>。
+    </blockquote>
+  </PageHeader>
+
+  <div class="container-x pb-24 lg:pb-36">
+    <!-- Platform Quick Jump Bar -->
+    <nav aria-label="客户端平台快速跳转" class="mt-8">
+      <ul class="flex flex-wrap gap-2.5">
+        {
+          CLIENT_PLATFORMS.map((p) => (
+            <li>
+              <a
+                href={`#platform-${p.id}`}
+                class="inline-flex items-center gap-2 rounded-full border border-line bg-surface px-4 py-2 text-sm text-ink transition hover:border-accent hover:text-accent"
+              >
+                <span class="font-mono text-xs text-accent uppercase">{p.id}</span>
+                <span>{p.title}</span>
+              </a>
+            </li>
+          ))
+        }
+        <li>
+          <a
+            href="#client-mode-compare"
+            class="inline-flex items-center gap-2 rounded-full border border-accent/40 bg-accent/10 px-4 py-2 text-sm text-accent"
+          >
+            通用订阅 vs 专属客户端对比
+          </a>
+        </li>
+      </ul>
+    </nav>
+
+    <!-- 4-Step Quick Subscription Import Workflow -->
+    <section class="mt-12 rounded-2xl border border-line bg-surface p-6 sm:p-8" aria-labelledby="quick-import-heading">
+      <div class="flex flex-wrap items-center justify-between gap-4 border-b border-line pb-4">
+        <div>
+          <h2 id="quick-import-heading" class="text-xl font-semibold text-ink sm:text-2xl">
+            新手 3 分钟通用订阅导入标准流程
+          </h2>
+          <p class="mt-1 text-xs text-muted">
+            适用于光速云、微风网络、暮光加速、星岛梦等所有支持标准通用订阅的专线机场：
+          </p>
+        </div>
+        <a href={ROUTES.brandDetail(primary.slug)} class="text-xs font-medium text-accent underline underline-offset-4">
+          还没有订阅？获取榜首「光速云」双专线订阅 →
+        </a>
+      </div>
+
+      <div class="mt-6 grid gap-5 sm:grid-cols-2 lg:grid-cols-4">
+        <div class="rounded-xl border border-line/80 bg-bg/50 p-4">
+          <div class="font-mono text-xs text-accent">STEP 01 · 复制加密订阅</div>
+          <h3 class="mt-2 text-base font-medium text-ink">在机场仪表盘复制链接</h3>
+          <p class="mt-1.5 text-xs leading-relaxed text-muted">
+            登录机场后台（如光速云面板），点击「一键导入 Clash」或复制通用订阅 URL（切勿将订阅链接泄露给他人）。
+          </p>
+        </div>
+        <div class="rounded-xl border border-line/80 bg-bg/50 p-4">
+          <div class="font-mono text-xs text-accent">STEP 02 · 下载新一代客户端</div>
+          <h3 class="mt-2 text-base font-medium text-ink">认准 Mihomo / sing-box 内核</h3>
+          <p class="mt-1.5 text-xs leading-relaxed text-muted">
+            根据下方 6 大系统清单点击「GitHub Releases 下载」获取官方最新安装包，避开停更老版本与第三方篡改包。
+          </p>
+        </div>
+        <div class="rounded-xl border border-line/80 bg-bg/50 p-4">
+          <div class="font-mono text-xs text-accent">STEP 03 · 粘贴配置并更新</div>
+          <h3 class="mt-2 text-base font-medium text-ink">拉取节点与分流规则</h3>
+          <p class="mt-1.5 text-xs leading-relaxed text-muted">
+            在客户端「订阅 / Profiles」栏粘贴订阅 URL 并点击下载；建议开启「自动更新订阅」以同步最新专线入口。
+          </p>
+        </div>
+        <div class="rounded-xl border border-line/80 bg-bg/50 p-4">
+          <div class="font-mono text-xs text-accent">STEP 04 · 开启 Rule 规则分流</div>
+          <h3 class="mt-2 text-base font-medium text-ink">启用系统代理或 TUN 模式</h3>
+          <p class="mt-1.5 text-xs leading-relaxed text-muted">
+            代理模式选择「Rule（规则）」，打开「系统代理 (System Proxy)」即可实现国内直连、ChatGPT 与流媒体自动走专线。
+          </p>
+        </div>
+      </div>
+    </section>
+
+    <!-- 6 Platforms Client Matrix -->
+    <div class="mt-14 space-y-12">
+      {
+        CLIENT_PLATFORMS.map((plat) => (
+          <section
+            id={`platform-${plat.id}`}
+            class="scroll-mt-28 rounded-2xl border border-line bg-surface p-6 sm:p-8"
+            aria-labelledby={`heading-${plat.id}`}
+          >
+            <div class="flex flex-wrap items-start justify-between gap-4 border-b border-line pb-5">
+              <div>
+                <span class="font-mono text-xs text-accent uppercase">{plat.id} PLATFORM</span>
+                <h2 id={`heading-${plat.id}`} class="mt-1 text-2xl font-semibold text-ink">
+                  {plat.title}
+                </h2>
+                <p class="mt-1 text-sm text-muted">{plat.subtitle}</p>
+              </div>
+              <div class="flex flex-wrap gap-1.5">
+                {plat.seoKeywords.slice(0, 3).map((kw) => (
+                  <span class="rounded-full border border-line bg-bg px-2.5 py-1 font-mono text-[11px] text-muted">
+                    {kw}
+                  </span>
+                ))}
+              </div>
+            </div>
+
+            <div class="mt-4 rounded-xl border border-accent/25 bg-accent/5 p-3.5 text-xs leading-relaxed text-muted">
+              <strong class="text-accent">平台选型与安全下载提示：</strong>{plat.platformTip}
+            </div>
+
+            <div class="mt-6 grid gap-4 md:grid-cols-2 lg:grid-cols-3">
+              {plat.apps.map((c: ClientApp, idx: number) => (
+                <div
+                  class:list={[
+                    "flex flex-col justify-between rounded-xl border p-5 transition hover:border-accent/70",
+                    idx < 2 ? "border-accent/50 bg-bg/80" : "border-line/70 bg-bg/40",
+                  ]}
+                >
+                  <div>
+                    <div class="flex flex-wrap items-center justify-between gap-2">
+                      <h3 class="text-base font-semibold text-ink">
+                        <a
+                          href={c.downloadUrl}
+                          target="_blank"
+                          rel="nofollow noopener noreferrer"
+                          class="hover:text-accent"
+                        >
+                          {c.name} ↗
+                        </a>
+                      </h3>
+                      {idx < 2 ? (
+                        <a
+                          href={c.downloadUrl}
+                          target="_blank"
+                          rel="nofollow noopener noreferrer"
+                          class="rounded bg-accent px-2 py-0.5 text-[11px] font-bold text-accent-text transition hover:opacity-90"
+                        >
+                          主力推荐
+                        </a>
+                      ) : (
+                        <a
+                          href={c.repoUrl ?? c.downloadUrl}
+                          target="_blank"
+                          rel="nofollow noopener noreferrer"
+                          class="rounded border border-line px-2 py-0.5 text-[11px] text-muted transition hover:border-accent hover:text-accent"
+                        >
+                          {c.sourceLabel} ↗
+                        </a>
+                      )}
+                    </div>
+                    <div class="mt-2 flex flex-wrap gap-1.5 font-mono text-[11px]">
+                      <span class="rounded border border-line bg-surface px-2 py-0.5 text-accent">
+                        {c.core}
+                      </span>
+                      {c.pricingNote && (
+                        <span class="rounded border border-line bg-surface px-2 py-0.5 text-muted">
+                          {c.pricingNote}
+                        </span>
+                      )}
+                    </div>
+                    <p class="mt-3 text-xs leading-relaxed text-muted">{c.features}</p>
+                    {c.maintenanceNote && (
+                      <p class="mt-2 rounded border border-amber-400/30 bg-amber-400/10 p-2 text-[11px] text-amber-300">
+                        注意：{c.maintenanceNote}
+                      </p>
+                    )}
+                  </div>
+
+                  <div class="mt-4 border-t border-line/60 pt-3">
+                    <div class="text-[11px] text-muted">
+                      适用定位：<span class="text-ink">{c.recommendedFor}</span>
+                    </div>
+                    <div class="mt-3 flex items-center gap-2">
+                      <a
+                        href={c.downloadUrl}
+                        target="_blank"
+                        rel="nofollow noopener noreferrer"
+                        class:list={[
+                          "flex-1 rounded-lg border px-3 py-2 text-center text-xs font-medium transition",
+                          idx < 2
+                            ? "border-accent bg-accent text-accent-text hover:opacity-90"
+                            : "border-accent/40 bg-accent/10 text-accent hover:bg-accent hover:text-accent-text",
+                        ]}
+                      >
+                        {c.downloadLabel} ↗
+                      </a>
+                      {c.repoUrl && c.repoUrl !== c.downloadUrl && (
+                        <a
+                          href={c.repoUrl}
+                          target="_blank"
+                          rel="nofollow noopener noreferrer"
+                          class="rounded-lg border border-line bg-surface px-3 py-2 text-xs text-muted transition hover:border-accent hover:text-ink"
+                          title="访问项目源码或文档主页"
+                        >
+                          项目主页 ↗
+                        </a>
+                      )}
+                    </div>
+                  </div>
+                </div>
+              ))}
+            </div>
+          </section>
+        ))
+      }
+    </div>
+
+    <!-- Universal Subscription vs Dedicated Client Comparison -->
+    <section
+      id="client-mode-compare"
+      class="mt-16 scroll-mt-28 rounded-2xl border border-line bg-surface p-6 sm:p-8"
+      aria-labelledby="mode-compare-heading"
+    >
+      <h2 id="mode-compare-heading" class="text-xl font-semibold text-ink sm:text-2xl">
+        通用订阅客户端 vs 机场专属定制客户端：哪类更适合您？
+      </h2>
+      <div class="mt-6 grid gap-6 lg:grid-cols-2">
+        {
+          CLIENT_MODES.map((m) => (
+            <div class="rounded-xl border border-line bg-bg/60 p-6">
+              <div class="flex flex-wrap items-center justify-between gap-2">
+                <h3 class="text-lg font-semibold text-accent">{m.title}</h3>
+                <span class="rounded-full border border-accent/35 bg-accent/10 px-3 py-0.5 font-mono text-xs text-accent">
+                  {m.badge}
+                </span>
+              </div>
+              <p class="mt-3 text-xs leading-relaxed text-muted">{m.summary}</p>
+              <div class="mt-4 flex flex-wrap gap-2">
+                {(m.type === "universal" ? universalBrands : dedicatedBrands).map((b) => (
+                  <a
+                    href={ROUTES.brandDetail(b.slug)}
+                    class:list={[
+                      "rounded-full border px-3 py-1 text-xs transition",
+                      b.rank === 1
+                        ? "border-accent bg-accent font-semibold text-accent-text"
+                        : "border-line bg-surface text-ink hover:border-accent hover:text-accent",
+                    ]}
+                  >
+                    #{b.rank} {b.name}
+                  </a>
+                ))}
+              </div>
+            </div>
+          ))
+        }
+      </div>
+    </section>
+
+    <!-- Troubleshooting Checklist -->
+    <section class="mt-16" aria-labelledby="troubleshoot-heading">
+      <h2 id="troubleshoot-heading" class="h-section">
+        <span class="dim">订阅配置</span> <span class="hl">常见故障排查</span>
+      </h2>
+      <p class="mt-4 text-sm text-muted">
+        如需完整的 Mihomo 防 DNS 泄漏 YAML 模板、终端路由自检命令及 AI/流媒体分流规则，请深入阅读 <a href={ROUTES.serviceDetail("customer-analysis")} class="text-accent underline">《全平台客户端与 TUN/DNS 深度排错指南》</a>、<a href={ROUTES.serviceDetail("reporting")} class="text-accent underline">《ChatGPT 与 Claude 锁区防降智分流配置》</a> 与 <a href={ROUTES.serviceDetail("demand-forecasting")} class="text-accent underline">《4K 流媒体与 TikTok 跨区防锁区指南》</a>。
+      </p>
+      <div class="mt-8 grid gap-6 md:grid-cols-2">
+        {
+          clientTroubleshooting.map((t) => (
+            <div class="rounded-2xl border border-line bg-surface p-6">
+              <h3 class="text-base font-semibold text-ink">{t.issue}</h3>
+              <p class="mt-2 text-xs text-amber-300">常见原因：{t.cause}</p>
+              <p class="mt-3 text-sm leading-relaxed text-muted">
+                <strong class="text-ink">解决步骤：</strong>{t.fix}
+              </p>
+            </div>
+          ))
+        }
+      </div>
+    </section>
+
+    <!-- FAQ Section -->
+    <section class="mt-16 border-t border-line pt-14" aria-labelledby="client-faq-heading">
+      <h2 id="client-faq-heading" class="h-section">
+        <span class="dim">客户端选型</span> <span class="hl">常见问题</span>
+      </h2>
+      <div class="mt-8 grid gap-6 md:grid-cols-3">
+        {
+          clientFaqs.map((faq) => (
+            <details open class="group rounded-2xl border border-line bg-surface p-6">
+              <summary class="flex cursor-pointer list-none items-start justify-between gap-2">
+                <h3 class="text-base font-semibold text-ink group-hover:text-accent">{faq.q}</h3>
+                <span class="shrink-0 font-mono text-xs text-muted group-open:text-accent">展开/收起</span>
+              </summary>
+              <p class="mt-3 border-t border-line/60 pt-3 text-sm leading-relaxed text-muted">{faq.a}</p>
+            </details>
+          ))
+        }
+      </div>
+    </section>
+  </div>
+  <TopicMatrixNav />
+</BaseLayout>

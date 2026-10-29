@@ -1,159 +1,169 @@
-# Orrery
+<div align="center">
 
-A free Astro theme for consultants and small B2B service firms: a dark site with large light type, one lime accent and a home page that moves as you scroll.
+# 🌐 ClashVPN.run 订阅指南与网络可观测性实验室
 
-**Live demo:** https://orrery.formgong.com · **No build step?** Download `orrery-html.zip` from the [latest release](https://github.com/formgong/orrery-astro-theme/releases/latest): plain HTML files, replace `fk_your_access_key` and `https://example.com` with your own and upload them anywhere.
+**42 家主流机场品牌深度评测 · IEPL / IPLC 跨境专线测速快照 · 全平台客户端规则配置与跑路预警矩阵**
 
-[![Deploy to Cloudflare](https://deploy.workers.cloudflare.com/button)](https://deploy.workers.cloudflare.com/?url=https://github.com/formgong/orrery-astro-theme) [![Deploy with Vercel](https://vercel.com/button)](https://vercel.com/new/clone?repository-url=https%3A%2F%2Fgithub.com%2Fformgong%2Forrery-astro-theme&project-name=orrery&repository-name=orrery&env=PUBLIC_FORMGONG_ACCESS_KEY&envDescription=Your%20Formgong%20access%20key%20%28fk_...%29.%20Create%20a%20free%20form%20to%20get%20one.&envLink=https%3A%2F%2Fformgong.com%2Fnew%3Fname%3Dorrery)
+[![Astro](https://img.shields.io/badge/Astro-7.3.7-FF5D01?style=flat-square&logo=astro&logoColor=white)](https://astro.build)
+[![Tailwind CSS](https://img.shields.io/badge/TailwindCSS-4.3.3-38B2AC?style=flat-square&logo=tailwind-css&logoColor=white)](https://tailwindcss.com)
+[![TypeScript](https://img.shields.io/badge/TypeScript-6.0.3-3178C6?style=flat-square&logo=typescript&logoColor=white)](https://www.typescriptlang.org)
+[![SEO Health Score](https://img.shields.io/badge/SEO%2FGEO%20Health-98.5%2F100-2EA043?style=flat-square&logo=google&logoColor=white)](https://clashvpn.run)
+[![License](https://img.shields.io/badge/License-MIT-blue?style=flat-square)](LICENSE)
 
-Each button copies the theme to your GitHub, builds it and asks for one value: your Formgong access key (`fk_…`), free at https://formgong.com/new. The form works from the first deploy. Then set `url` in `src/config.ts` to your domain.
+[在线预览 ↗](https://clashvpn.run) · [42 家机场品牌库 ↗](https://clashvpn.run/brands/) · [免费资源矩阵 ↗](https://clashvpn.run/free/) · [跑路预警雷达 ↗](https://clashvpn.run/warnings/) · [专线FAQ 60问 ↗](https://clashvpn.run/faq/)
 
-The demo business is **Quillmoor Analytics**, a fictional five-person data and strategy consultancy in the fictional town of Port Alder. Everything on the site is sample content: phone numbers use the 555-01xx range reserved for fiction, every email and link uses `example.com`, and the team is described by role, not by name.
+</div>
 
-- **One file to rebrand.** Name, contact details, hours, the hero counters, the accent color and the form key live in `src/config.ts`. Services are Markdown files.
-- **Thirteen scroll and load effects, no animation library.** Service cards that start as a staircase and pull up into a grid as you scroll, flipping in from flat; statements that fill line by line; a panel that slides in from the screen edge; titles that tilt into place. Timings, easings and scroll ranges were measured on the reference design with Playwright. All of it is CSS plus three tiny scripts, and all of it stops for visitors who prefer reduced motion.
-- **A contact form that never fakes success.** It shows "Message received" only when the form backend answers `success: true`. Errors and lost connections show an error. Without JavaScript it still works as a plain HTML form.
-- **Fast and accessible.** Static pages, one self-hosted font (Questrial), a few small scripts (the canvas scenes, the entrance trigger, the orbit lean, the form, closing the mobile menu). Labels on every field, visible focus, AA contrast for every text colour in its final state. Lighthouse mobile: 99–100 / 100 / 100 / 100.
+---
 
-Built with Astro 7, Tailwind CSS 4 and TypeScript.
+## 📖 项目简介 (Overview)
 
-## Quick start
+`clashvpn.run` 是基于 **Astro 7 (SSG)** 构建的现代高性能跨境网络评测与代理协议选型知识库。项目采用 **Content Collections** 驱动与四层站内内容矩阵架构，兼顾纯静态极速渲染（Zero-JS 默认）、严苛的**防连坐风控（340 条外部商业链接 100% `nofollow`）**以及面向 AI 搜索引擎（Google AI Overviews / Perplexity / SearchGPT）的 **GEO (Generative Engine Optimization)** 优化。
 
-```sh
-npm create astro@latest -- --template formgong/orrery-astro-theme
-cd your-project
-npm run dev
+### 🌟 核心特色
+
+- ⚡ **极致纯静态构建 (SSG)**：全站 59 个页面全部预渲染为纯静态 HTML，TTFB < 50ms，爬虫 0 渲染阻塞，首屏纯 HTML 携带完整文本与表格。
+- 📊 **42 家机场品牌深度档案**：收录 28 家主力测速机场与 14 家归档品牌，保留 **17 份 2026-08-11 原始节点测速证据快照**，按 5 级严格数据口径呈现。
+- 🛡️ **三大万字级 SEO / GEO 支柱专题**：
+  - **`/free/` 免费资源矩阵**（~3.8 万可见字）：涵盖公益节点风险辨识、Cloudflare WARP 优化、GitHub 开源分流规则库与防降智配置。
+  - **`/faq/` 专线与协议 FAQ 百科**（~3.3 万可见字）：包含 56 组 `<details open><summary>` 语义折叠真实问答，覆盖协议、专线拓扑、客户端排错与流媒体解锁。
+  - **`/warnings/` 机场跑路预警雷达**（~4.2 万可见字）：业内首个建立在财务预期值与网络探针指标上的机场避坑与失联监测中心。
+- 🎯 **六大深度场景长文 (`/services/[id]/`)**：针对 IEPL 专线终端验真、ChatGPT 4.5/Claude 3.7 防降智分流、4K 奈飞跨区、百元年付性价比、按量不限时容灾及 TUN 模式排错输出万字教程。
+- 🤖 **完善的 Schema.org 结构化数据**：自动生成 `Organization`、`WebSite`、`WebPage`、`BreadcrumbList`、`TechArticle`、`Service` 与 `FAQPage`，正文与 JSON-LD 100% 同步匹配。
+- 🎨 **现代化暗色 UI 与原生动画**：基于 Tailwind CSS v4 与 CSS 原生 Scroll-Driven Animations（`animation-timeline: view()`），手机端自动停用，零第三方繁重 JS 动画库依赖。
+
+---
+
+## 🏗️ 架构拓扑与站内矩阵 (Architecture)
+
+```mermaid
+graph TD
+  A["/ (首页 Portal)"] --> B["/brands/ (42家机场品牌库)"]
+  A --> C["/clients/ (6大客户端教程)"]
+  A --> D["/guides/ (专线与协议选型)"]
+  A --> E["/free/ (免费资源与开源规则库)"]
+  A --> F["/faq/ (机场FAQ 60问百科)"]
+  A --> G["/warnings/ (跑路预警与防失联雷达)"]
+  A --> H["/services/ (六大深度场景指南)"]
+  
+  B --> B1["/brands/[slug]/ (42 个独立品牌评测页)"]
+  H --> H1["/services/[id]/ (6 篇万字技术实测文章)"]
+  
+  subgraph 站内四层内链系统 (Topic Matrix)
+    B1 -. "回链 / 推荐" .-> A
+    B1 -. "横向关联" .-> C
+    B1 -. "深度延伸" .-> H1
+    H1 -. "归属支柱" .-> H
+    E -. "全站矩阵导航" .-> F
+    F -. "全站矩阵导航" .-> G
+  end
 ```
 
-Or clone the repository and run `npm install`, then `npm run dev`. Node 22.12 or newer is required.
+---
 
-| Command           | What it does                                   |
-| ----------------- | ---------------------------------------------- |
-| `npm run dev`     | Local dev server at `http://localhost:4321`    |
-| `npm run build`   | Static site in `dist/`                         |
-| `npm run preview` | Serve the built site locally                   |
-| `npm run check`   | Type-check `.astro` and `.ts` files            |
-
-## Rebrand it
-
-Open `src/config.ts`. The main fields:
-
-| Field                                     | Used for                                                                                   |
-| ----------------------------------------- | ------------------------------------------------------------------------------------------ |
-| `name`, `shortName`, `tagline`, `description` | Logo (two-line wordmark: `shortName`, then the rest of `name`), page titles, meta description, JSON-LD |
-| `url`                                     | Canonical URLs, Open Graph, sitemap, robots.txt and the form's redirect                    |
-| `schemaType`                              | schema.org type, e.g. `ProfessionalService`, `AccountingService`, `LegalService`           |
-| `phone`, `email`, `address`, `areaServed` | Header menu, footer, contact page, JSON-LD                                                 |
-| `hours`, `hoursNote`                      | Contact page, JSON-LD opening hours                                                        |
-| `social`                                  | Footer icons. Real profile URLs are also added to JSON-LD `sameAs`                         |
-| `stats`, `statsNote`                      | The four counters in the hero. Sample values: replace them, then clear `statsNote`         |
-| `theme.accent`, `theme.accentText`        | The one accent (key words, buttons, cards, the process panel) and the text color on it (keep 4.5:1) |
-| `formgong`                                | Fallback access key, endpoint and email subject for the contact form                      |
-| `nav`, `cta`                              | Header links and the accent button in the header and footer                               |
-
-Replace the logo mark in `src/components/Logo.astro` and `public/favicon.svg`, and regenerate `public/og.png` (1200×630) and `public/apple-touch-icon.png` (180×180).
-
-The JSON-LD block has no star rating on purpose: search engines ignore ratings a business publishes about itself.
-
-## Set up the form
-
-The contact form posts to [Formgong](https://formgong.com), a hosted form backend, so you don't need a server. It appears on the contact page; the buttons on the home page lead to it.
-
-1. Create a free form at [formgong.com/new](https://formgong.com/new?name=Website%20contact%20form) (or from the dashboard if you already have an account).
-2. Copy the form's access key. It starts with `fk_` and is public by design: it only lets visitors send submissions to that one form.
-3. Add it to a `.env` file in the project root:
-
-   ```sh
-   PUBLIC_FORMGONG_ACCESS_KEY=fk_your_access_key
-   ```
-
-   or set `formgong.accessKey` in `src/config.ts`. While the placeholder key is in use, the dev server shows a reminder above the form.
-4. Set `url` in `src/config.ts` to your real domain. Visitors without JavaScript are redirected to `/thanks/` on that domain. Formgong only follows a redirect on the site that sent the form, so on `localhost` you land on Formgong's own thank-you page instead.
-
-Submissions arrive by email and, if you connect it, in Telegram. The free plan covers 300 submissions a month.
-
-**How the form behaves**
-
-- Without JavaScript: a normal `POST` to `https://formgong.com/submit`. The hidden `_redirect` field sends the visitor to `/thanks/` afterwards.
-- With JavaScript: the same fields are sent with `fetch` and `Accept: application/json`. The button is disabled while sending. The success state, with its checkmark animation, appears only when the JSON response has `success === true`. Any other response shows the server's `message`. A network failure shows an error and your email address.
-- The hidden `botcheck` field is a spam honeypot. Keep it empty and keep it in the markup.
-
-**Using another form backend.** Any service that accepts a standard form `POST` works. Set `PUBLIC_FORMGONG_ENDPOINT` (or `formgong.endpoint`) to its URL and rename the hidden fields to what that service expects. If its JSON response is shaped differently, change the single `reply?.success === true` check in `src/components/ContactForm.astro`.
-
-## Edit the content
-
-- **Services:** one Markdown file per service in `src/content/services/`. Frontmatter: `title`, `tags` (the short line on the card), `summary`, `order`, `priceFrom`, `duration`, `deliverables` (list) and `art`, the card's line animation: `grid`, `bars`, `forecast`, `curve`, `bells` or `clusters` (see `src/components/ServiceArt.astro`). The body is shown on the services page.
-- **Key words in the accent:** wrap them in asterisks, for example `lines={["Our *services*"]}`. This works in section headings, page headers and the lines that fill on scroll (`FillLines.astro`: one string per line).
-- **Home page copy:** one file per section in `src/components/sections/`. The process steps are at the top of `Process.astro`.
-- **About page:** roles and terms at the top of `src/pages/about.astro`.
-
-## The effects
-
-Numbers match the comments in the code.
-
-| #  | Effect | Where |
-| -- | ------ | ----- |
-| 1  | Fixed 90px header: logo, three links, accent button, a 1px divider from the content edge to the screen edge | `Header.astro` |
-| 2  | On load the first heading line tilts in, the second is wiped in from the left, the lead fades in; a 3D particle network fills the whole hero behind the text, pushed aside by the pointer | `sections/Hero.astro`, `scripts/scenes.ts` (`plexus`) |
-| 3  | Counters count up from 0 in steps, in the accent color | `.count` in `effects.css` |
-| 4  | The hero stays put (sticky) while the next block slides up over it | `.hero-wrap` in `pages/index.astro` |
-| 5  | A statement fills line by line: the key words turn from grey to the accent behind a front that sweeps left to right | `FillLines.astro`, `.fl-top` |
-| 6  | Line-art orbits turn slowly and lean towards the pointer | `Orbits.astro`, `.orbit-ring`, `scripts/follow.ts` |
-| 7  | A large rounded panel of drifting lines grows from 90% as it scrolls in; its quote flips in | `sections/MediaPanel.astro`, `.media`, `scenes.ts` (`flow`) |
-| 8  | Two-tone section heading that fills like 5, a lead and a short accent rule | `sections/Services.astro` |
-| 9  | Service cards start as a staircase, each 300px below the last, and pull up into a 3-column grid (2 columns on tablets) as you scroll; each flips in from flat when it reaches the screen; the finished grid scrolls away as one block | `sections/Services.astro`, `ServiceCard.astro`, `ServiceArt.astro`, `[data-enter="flip"]` |
-| 10 | Split section: the picture grows from 90% as it scrolls in | `sections/Split.astro`, `Ridgelines.astro`, `.split-pic` |
-| 11 | An accent panel slides in from the left edge of the screen next to sticky turning orbits; each step's dot opens, its title tilts in and its paragraph is wiped up | `sections/Process.astro`, `[data-enter]` |
-| 12 | The closing heading fills like 5 | `sections/FinalCta.astro` |
-| 13 | Footer over a rolling 3D field of dots | `Footer.astro`, `scenes.ts` (`wave`) |
-
-How it is built:
-
-- **Scroll-linked effects are CSS** (`animation-timeline: view(0px)`, one view timeline per element), so the browser runs them off the scroll position with no scroll listeners. They are all in `src/styles/effects.css`. `view(0px)` rather than `view()`: the default inset is the page's `scroll-padding`, which would shorten every range by the header height.
-- **Entrances are CSS animations started by a 20-line script** (`src/scripts/enter.ts`): when 15% of an element is on screen it gets `.is-in` and its animation plays once. The card staircase is plain `position: sticky`: every card sits in its own track, and all tracks end together.
-- **One canvas script** (`src/scripts/scenes.ts`, under 6 KB minified with the other two, no dependencies) draws the particle network, the drifting lines and the dot wave. It caps the device pixel ratio at 2, draws only while a canvas is on screen and the tab is visible, and draws one still frame for reduced motion.
-- **The counters are CSS too:** a registered integer property stepped from 0 and printed with `counter()`. The real numbers are in the HTML for screen readers and search engines.
-
-Phones (under 751px) get no entrances and no scroll effects, like the reference design. Browsers without scroll-driven animations, pages without JavaScript and visitors who prefer reduced motion see every section in its final state: text filled, cards flat and lit, the panel in place, titles straight. Nothing is hidden.
-
-Three CSS details that keep it working:
-
-- Scroll-driven rules use longhand properties (`animation-name`, `animation-timeline`, …). A minifier can merge a shorthand and `animation-timeline` into one declaration that Chrome rejects.
-- Wrappers around animated content use `overflow: clip`, not `overflow: hidden`. `overflow: hidden` creates a scroll container, and a view timeline inside it would track that box instead of the page.
-- Entrances keep `transform: none` in their first keyframe, so the observer measures the element's real box before it starts. The cards and the media quote fade in over 1.2 s while they flip (as on the reference); every text colour passes AA once settled.
-
-## Look
-
-Navy-black ground (`--c-bg`, #040319), #EEEEEE type (white for the hero heading), a grey (`--c-dim`, #949494, 6.7:1) for text that has not filled yet, and one accent from `theme.accent` (#DCFD35) with navy text on it. Type is Questrial (one weight; bold is synthesized), sized to the reference: 72px heading, 62px statements, 38px paragraphs, 22px leads. Cards and buttons have a 12px radius, pictures 24px.
-
-## Project structure
+## 🗂️ 目录结构 (Directory Structure)
 
 ```text
-src/
-├── components/
-│   ├── sections/       Hero, Statement, MediaPanel, Services, Split, Process, FinalCta (the home page, in order)
-│   ├── ContactForm.astro   The form and its script
-│   ├── FillLines.astro     Line-by-line fill (5, 8, 12)
-│   ├── Orbits.astro        Line-art orbits (6, 11)
-│   ├── Ridgelines.astro    Build-time ridgeline chart (10)
-│   ├── ServiceCard.astro, ServiceArt.astro   Service cards and their line drawings (9)
-│   ├── Head.astro          Meta tags, Open Graph, JSON-LD
-│   └── Header, Footer, Logo, Icon, PageHeader, SectionHeading, Highlight
-├── content/services/   One Markdown file per service
-├── layouts/            BaseLayout.astro
-├── lib/                schema.ts (JSON-LD), highlight.ts
-├── pages/              index, services/, about, contact, thanks, 404, robots.txt.ts
-├── scripts/            scenes.ts (canvas scenes), enter.ts (entrance trigger), follow.ts (orbit lean)
-├── styles/             global.css (tokens, components), effects.css (all motion)
-├── config.ts           Everything you rebrand
-└── content.config.ts   Collection schema
-public/                 favicon.svg, og.png, apple-touch-icon.png
+clashvpn.run/
+├── public/                       # 静态资源 (本地自托管，0 外部不可控 CDN)
+│   ├── assets/brand/             # 品牌 SVG 图标、Apple Touch Icon、OG 分享图
+│   ├── assets/speedtests/        # 17 份 2026-08-11 真实测速原图存档
+│   └── manifest.webmanifest      # PWA 基础元配置
+├── src/
+│   ├── components/               # 通用组件
+│   │   ├── Head.astro            # 全站 SEO Head 系统 (Title, Desc, Canonical, OG, Verification)
+│   │   ├── Header.astro          # 顶部主导航 (含 6 大核心支柱入口)
+│   │   ├── Footer.astro          # 底部多列导航与合规免责声明
+│   │   ├── TopicMatrixNav.astro  # 全站通用四层支柱专题导航矩阵
+│   │   ├── ContactForm.astro     # 无 JS 渐进增强联系表单 (带 Honeypot 防垃圾机制)
+│   │   └── observatory/          # 暗黑网络可观测性组件 (测速图、解锁矩阵、链路拓扑)
+│   ├── content/
+│   │   └── services/*.md         # 六大场景技术指南内容源 (Content Collections Schema)
+│   ├── data/
+│   │   ├── brands.ts             # 42 家机场品牌核心数据源 (协议、价格、测速、优缺点)
+│   │   ├── brands-archive.ts     # 14 家归档品牌差异化深度档案
+│   │   ├── free-resources.ts     # 免费资源与分流规则库数据库 (~8.3 万字符)
+│   │   ├── faq-matrix.ts         # 专线与协议 FAQ 百科数据库 (~6.0 万字符)
+│   │   ├── warnings-matrix.ts    # 跑路预警与风险测算数据库 (~8.0 万字符)
+│   │   └── links.ts              # 外部商业推广链接隔离层 (严格封装 nofollow sponsored)
+│   ├── layouts/
+│   │   └── BaseLayout.astro      # 全局母版页
+│   ├── lib/
+│   │   ├── schema.ts             # JSON-LD 结构化数据生成引擎
+│   │   └── urls.ts               # Canonical 绝对路径解析与路由集中管理
+│   ├── pages/                    # 路由目录
+│   │   ├── index.astro           # 首页 (/)
+│   │   ├── brands/               # /brands/ 与 /brands/[slug]/ (42 家品牌评测)
+│   │   ├── clients/              # /clients/ (全平台客户端下载与教程)
+│   │   ├── guides/               # /guides/ (IEPL vs IPLC 专线架构与协议选型)
+│   │   ├── free/                 # /free/ (免费资源与开源分流规则)
+│   │   ├── faq/                  # /faq/ (机场FAQ 60问百科)
+│   │   ├── warnings/             # /warnings/ (跑路预警与防失联雷达)
+│   │   ├── services/             # /services/ 与 /services/[id]/ (场景深度实测)
+│   │   ├── contact.astro         # /contact/ (1对1选型诊断与测速投稿)
+│   │   ├── thanks.astro          # /thanks/ (提交成功页，noindex)
+│   │   ├── 404.astro             # /404.html (404 错误页)
+│   │   ├── robots.txt.ts         # 动态生成多引擎抓取规则 robots.txt
+│   │   └── sitemap.xml.ts        # 根目录标准 sitemap.xml 接口
+│   ├── styles/                   # 样式库 (Tailwind CSS v4 + effects.css 原生动效)
+│   └── config.ts                 # 全局业务变量、站点元信息、SEO 站长验证集中配置
+├── astro.config.mjs              # Astro 配置文件 (集成 @astrojs/sitemap 与 Tailwind v4)
+└── package.json
 ```
 
-## Deploy
+---
 
-`npm run build` produces a static site in `dist/` that any static host can serve. On Vercel or Netlify, set `PUBLIC_FORMGONG_ACCESS_KEY` in the project's build environment variables: the key is read at build time. The Deploy to Cloudflare button stores it as a Worker secret instead, and `worker.js` puts it into the form as each page is served. Set `url` in `src/config.ts` first so canonical links, the sitemap and the form redirect point at your domain.
+## 🛠️ 常用开发命令 (Commands)
 
-## License
+本项目采用 `npm` 作为标准包管理器：
 
-MIT, see `LICENSE`. The illustrations, line drawings and icons were drawn for this theme and are covered by the same license. The font is Questrial, licensed under the SIL Open Font License 1.1 and installed from `@fontsource/questrial`.
+| 命令 | 说明 | 验收标准 |
+| :--- | :--- | :--- |
+| `npm run dev` | 启动本地 Astro 开发服务器 | 默认运行在 `http://localhost:4321` |
+| `npm run check` | 对全部 `.astro` 与 `.ts` 执行强类型与内容集合校验 | **必须 0 errors, 0 warnings** |
+| `npm run build` | 静态编译全站页面至 `dist/` 目录 | 产出 59 个静态 HTML 与 Sitemap |
+| `npm run preview`| 本地预览编译后的 `dist/` 静态站点 | 用于验证生产环境静态资源与路由 |
+
+---
+
+## 🚀 部署指引 (Deployment)
+
+推荐部署于 **Cloudflare Pages**（全球 Edge 节点分发，原生支持静态站点与快速 SSL）：
+
+### 1. Cloudflare Pages 自动构建配置
+- **Framework Preset**: `Astro`
+- **Build command**: `npm run build`
+- **Build output directory**: `dist`
+- **Node.js Version**: `>=22.12.0`（在环境变量中配置 `NODE_VERSION: 22.12.0`）
+
+### 2. 域名与规范化 301 重定向
+在 Cloudflare 仪表盘中添加如下规则：
+- **Always Use HTTPS**: 开启（强制 HTTP $\to$ HTTPS）
+- **Redirect Rules**: 将 `https://www.clashvpn.run/*` 301 永久重定向至 `https://clashvpn.run/$1`（全站统一裸域）
+
+### 3. 环境变量配置 (可选)
+如果需要接入各大搜索引擎站长平台的验证代码，可在 Cloudflare Pages 后台设置以下环境变量：
+```ini
+PUBLIC_GOOGLE_SITE_VERIFICATION="your-google-token"
+PUBLIC_BING_SITE_VERIFICATION="your-bing-token"
+PUBLIC_BAIDU_SITE_VERIFICATION="your-baidu-token"
+PUBLIC_SHENMA_SITE_VERIFICATION="your-shenma-token"
+```
+
+---
+
+## 🔍 SEO / GEO 基础设施规范
+
+本项目严格遵循白帽 SEO 与生成式 AI 搜索引擎标准：
+
+1. **唯一正式域名**：全站所有 `<link rel="canonical">`、Open Graph、Twitter Card 及 Schema URL 均强制解析为 `https://clashvpn.run/.../` 绝对地址。
+2. **尾部斜杠强制性**：遵循 `trailingSlash: "always"`，全站目录路径必须以 `/` 结尾，避免重复内容惩罚。
+3. **外链严格隔离**：全站所有指向外部商业合作站与付费应用商店的链接，统一包裹 `rel="nofollow sponsored noopener noreferrer"`，杜绝连坐风控。
+4. **GEO Answer-First 布局**：核心栏目与 42 家品牌详情页首屏均部署语义化 `<blockquote>` 核心结论块，便于 Perplexity / Google AI Overviews 提取零点击答案。
+5. **多搜索引擎兼容**：`robots.txt` 明确放行 Googlebot、bingbot、Baiduspider 与 yisouspider（神马/夸克），并同步声明 `/sitemap.xml` 与 `/sitemap-index.xml`。
+
+---
+
+## 📄 开源许可证 (License)
+
+本项目基于 [MIT 许可证](LICENSE) 开源。

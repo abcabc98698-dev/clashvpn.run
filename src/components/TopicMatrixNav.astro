@@ -1,0 +1,155 @@
+---
+/**
+ * Full-site SEO / GEO Topic Cluster Navigation Matrix.
+ * Connects all Pillar Hubs (/brands/, /clients/, /guides/, /free/, /faq/, /warnings/, /services/)
+ * and Deep-Dive Scenario Clusters (/services/[id]/) with semantic anchor text.
+ */
+interface Props {
+  currentPath?: string;
+}
+
+const { currentPath = Astro.url.pathname } = Astro.props;
+
+const pillarClusters = [
+  {
+    badge: "PILLAR 01 · 品牌实体库",
+    title: "42家机场品牌评测与测速库",
+    href: "/brands/",
+    desc: "收录光速云、飞猫云、龙猫云、FlyingBird 等 42 家机场真实价格、IEPL/IPLC 线路架构与 17 份 2026-08-11 原始测速图。",
+    subLinks: [
+      { label: "榜首首选：光速云全能双专线评测", href: "/brands/guangsuyun/" },
+      { label: "飞猫云：19.9元不限时流量包", href: "/brands/feimaoyun/" },
+      { label: "龙猫云：15元起按量计费永不过期", href: "/brands/longmaoyun/" },
+      { label: "青云梯：¥96/年百元级全IEPL专线", href: "/brands/qingyunti/" },
+    ],
+  },
+  {
+    badge: "PILLAR 02 · 客户端与内核",
+    title: "6大系统开源代理客户端大全",
+    href: "/clients/",
+    desc: "覆盖 Windows、macOS、iOS、Android、Linux 与 OpenWrt 软路由的 Mihomo / Sing-box 客户端官方 GitHub Releases 直连下载。",
+    subLinks: [
+      { label: "Clash 订阅导入、TUN 虚拟网卡与 Fake-IP 防泄漏", href: "/services/customer-analysis/" },
+      { label: "Windows & macOS Clash Verge Rev 桌面端", href: "/clients/#desktop" },
+      { label: "iOS Shadowrocket / Stash 苹果端配置", href: "/clients/#mobile" },
+      { label: "OpenWrt OpenClash / PassWall 旁路由网关", href: "/clients/#router" },
+    ],
+  },
+  {
+    badge: "PILLAR 03 · 免费资源矩阵",
+    title: "2026 免费资源与开源规则全景库",
+    href: "/free/",
+    desc: "Cloudflare WARP+ 零信任 WireGuard 提取、GitHub 顶级分流规则集（MetaCubeX/Loyalsoldier/ACL4SSR）、Sub-Store 转换与 20+ IP/DNS 自检工具。",
+    subLinks: [
+      { label: "Cloudflare WARP 零信任提取与链式代理前置", href: "/free/#warp-zero-trust" },
+      { label: "GitHub 开源 Rule-Providers 分流规则直链库", href: "/free/#rule-providers" },
+      { label: "20+ 全球 IP 纯净度与 DNS 泄露在线检测工具", href: "/free/#diagnostic-tools" },
+      { label: "1元~12元正规专线低门槛验货包对照表", href: "/free/#low-cost-trials" },
+    ],
+  },
+  {
+    badge: "PILLAR 04 · 知识百科矩阵",
+    title: "跨境专线机场与协议 FAQ 60问百科",
+    href: "/faq/",
+    desc: "涵盖协议演进（IEPL/AnyTLS/Hysteria2）、套餐计费倍率、客户端排障、DNS 污染防护、ChatGPT 403 风控与流媒体跨区的 60 组技术问答。",
+    subLinks: [
+      { label: "协议架构：IEPL 专线 vs IPLC vs 普通公网中转", href: "/faq/#cat-protocol" },
+      { label: "AI 风控：ChatGPT 403 与 Claude 封号根因", href: "/faq/#cat-ai" },
+      { label: "流媒体解锁：Netflix 仅自制剧与 TikTok 黑屏", href: "/faq/#cat-streaming" },
+      { label: "网络诊断：Fake-IP、DNS 污染与 WebRTC 泄漏", href: "/faq/#cat-network" },
+    ],
+  },
+  {
+    badge: "PILLAR 05 · 风险情报矩阵",
+    title: "机场跑路预警雷达与防失联灾备中心",
+    href: "/warnings/",
+    desc: "量化拆解机场跑路前兆的 10 大技术与运营信号，实时同步 42 家机场风险核验状态，提供 5 分钟断网自检决策树与异构双订阅防失联方案。",
+    subLinks: [
+      { label: "10 大机场跑路前兆量化风险评分模型", href: "/warnings/#risk-scoring-model" },
+      { label: "42 家收录机场实时核验状态与风险雷达", href: "/warnings/#brand-risk-radar" },
+      { label: "节点全红是跑路还是本地 GFW 封锁？5分钟自检", href: "/warnings/#outage-decision-tree" },
+      { label: "主力月付 + 永久不限时按量包双冗余防失联架构", href: "/services/experiments/" },
+    ],
+  },
+  {
+    badge: "PILLAR 06 · 场景决策中心",
+    title: "六大高频场景深度选型与排障专题",
+    href: "/services/",
+    desc: "针对晚高峰专线办公、ChatGPT/Claude 生产力、Netflix/TikTok 4K 跨区、百元级年付入门与不限时灾备包提供一对一独立深度指南。",
+    subLinks: [
+      { label: "IEPL 与 IPLC 专线机场底层架构选型", href: "/services/data-audit/" },
+      { label: "ChatGPT 与 Claude 纯净原生 IP 解锁配置", href: "/services/reporting/" },
+      { label: "4K 流媒体与 TikTok 跨区高吞吐专线评测", href: "/services/demand-forecasting/" },
+      { label: "百元级（¥75–¥118/年）平价年付机场避坑指南", href: "/services/pricing/" },
+    ],
+  },
+];
+---
+
+<section class="container-x py-14 border-t border-line" aria-labelledby="topic-matrix-heading">
+  <div class="flex flex-col md:flex-row md:items-end justify-between gap-4 mb-8">
+    <div>
+      <p class="text-xs font-mono uppercase tracking-widest text-accent mb-2">
+        SEO / GEO TOPIC CLUSTER ARCHITECTURE · 全站知识与导航矩阵
+      </p>
+      <h2 id="topic-matrix-heading" class="text-2xl md:text-3xl font-normal tracking-tight">
+        全站六大支柱专题与四层内链导航矩阵
+      </h2>
+    </div>
+    <p class="text-xs text-muted max-w-md">
+      从顶部开源免费工具、60问技术百科、42家跑路风险雷达，到底部专线实测档案与客户端 YAML 配置，构建完整可核验的跨境网络知识图谱。
+    </p>
+  </div>
+
+  <div class="grid gap-5 md:grid-cols-2 lg:grid-cols-3">
+    {
+      pillarClusters.map((cluster) => {
+        const isActive = currentPath === cluster.href || (cluster.href !== "/" && currentPath.startsWith(cluster.href));
+        return (
+          <div
+            class:list={[
+              "rounded-2xl border p-6 flex flex-col justify-between transition",
+              isActive
+                ? "border-accent/60 bg-accent/[0.04]"
+                : "border-line bg-surface/35 hover:border-accent/40",
+            ]}
+          >
+            <div>
+              <div class="flex items-center justify-between gap-2 mb-2">
+                <span class="text-[11px] font-mono uppercase tracking-wider text-accent">{cluster.badge}</span>
+                {isActive && (
+                  <span class="rounded-full bg-accent/20 text-accent px-2 py-0.5 text-[10px] font-medium">
+                    当前所在支柱
+                  </span>
+                )}
+              </div>
+              <h3 class="text-lg font-medium text-ink mb-2">
+                <a href={cluster.href} class="hover:text-accent transition">
+                  {cluster.title}
+                </a>
+              </h3>
+              <p class="text-xs text-muted leading-relaxed mb-4">{cluster.desc}</p>
+            </div>
+
+            <div class="border-t border-line/70 pt-3 mt-2">
+              <p class="text-[11px] font-mono text-muted mb-2">核心子节点直达：</p>
+              <ul class="space-y-1.5 text-xs">
+                {cluster.subLinks.map((sub) => (
+                  <li>
+                    <a
+                      href={sub.href}
+                      class="text-ink/85 hover:text-accent transition flex items-center gap-1.5"
+                    >
+                      <span class="text-accent font-mono">→</span>
+                      <span>{sub.label}</span>
+                    </a>
+                  </li>
+                ))}
+              </ul>
+            </div>
+          </div>
+        );
+      })
+    }
+  </div>
+</section>

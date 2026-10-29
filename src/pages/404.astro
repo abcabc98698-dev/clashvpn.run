@@ -2,18 +2,21 @@
 import BaseLayout from "../layouts/BaseLayout.astro";
 import Orbits from "../components/Orbits.astro";
 import Icon from "../components/Icon.astro";
+import { ROUTES } from "../lib/urls";
 ---
 
-<BaseLayout title="Page not found" description="This page doesn't exist." noindex>
+<BaseLayout title="页面未找到 (404)" description="您访问的页面不存在或已移动。" noindex>
   <section class="container-x grid items-center gap-12 py-20 sm:py-28 lg:grid-cols-2">
     <div>
       <p class="text-accent">Error 404</p>
-      <h1 class="h-display mt-4"><span class="dim">This page is</span> <span class="hl">off the chart</span></h1>
-      <p class="lead mt-6 max-w-lg">It moved or never existed. Try one of these instead.</p>
-      <div class="mt-10 flex flex-col gap-3 sm:flex-row">
-        <a href="/" class="btn btn-primary btn-lg">Home <Icon name="arrow-right" class="icon-shift" /></a>
-        <a href="/services/" class="btn btn-secondary btn-lg">Services</a>
-        <a href="/contact/" class="btn btn-secondary btn-lg">Contact</a>
+      <h1 class="h-display mt-4"><span class="dim">该节点页面</span> <span class="hl">不在轨道上</span></h1>
+      <p class="lead mt-6 max-w-lg">您访问的链接可能已迁移或输入有误，请从以下核心入口继续浏览：</p>
+      <div class="mt-10 flex flex-wrap gap-3">
+        <a href={ROUTES.home} class="btn btn-primary btn-lg">返回首页 <Icon name="arrow-right" class="icon-shift" /></a>
+        <a href={ROUTES.brands} class="btn btn-secondary btn-lg">42家机场库</a>
+        <a href={ROUTES.free} class="btn btn-secondary btn-lg">免费资源</a>
+        <a href={ROUTES.faq} class="btn btn-secondary btn-lg">机场FAQ</a>
+        <a href={ROUTES.warnings} class="btn btn-secondary btn-lg">跑路预警</a>
       </div>
     </div>
     <Orbits class="mx-auto max-w-sm" />

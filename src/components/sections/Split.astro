@@ -1,9 +1,10 @@
 ---
 /** 10. Split section: a large paragraph and the accent button, next to a rounded picture that scales up as it scrolls in. */
 import Ridgelines from "../Ridgelines.astro";
+import { ROUTES } from "../../lib/urls";
 ---
 
-<section class="split" aria-label="When we say no">
+<section class="split" aria-label="年度首选推荐光速云">
   <div class="container-x split-col">
     <div class="split-pic">
       <div class="split-frame">
@@ -11,11 +12,12 @@ import Ridgelines from "../Ridgelines.astro";
       </div>
     </div>
     <p class="t-big split-text">
-      Two of our last five projects ended with a spreadsheet, not a model. If a pivot table answers your question, we say so in
-      week one and bill for week one. The rest of the budget stays with you, and so does the spreadsheet. We would rather lose a
-      project than sell you a model you do not need, and we put that promise in writing.
+      在 42 家收录机场中，我们将综合排名第 1 的「光速云 (Guangsu Cloud)」列为年度主力首选：采用 IEPL 内网专线 + 企业内网双专线架构与 VLESS 协议，覆盖美、日、韩、港、新、台、英等 20+ 国家/地区共 58 条主力节点，同时提供 ¥99/年轻量年付、¥15/月标准月付及 ¥147/260G 永久不限时流量包（注册即领 8 折券 gsu8888），并附 2026-08-11 真实测速长图佐证。
     </p>
-    <a href="/contact/#enquiry" class="btn btn-primary split-btn">Book a call</a>
+    <div class="split-btn flex flex-wrap gap-4">
+      <a href={ROUTES.brandDetail("guangsuyun")} class="btn btn-primary">查看光速云深度评测</a>
+      <a href={ROUTES.brands} class="btn btn-secondary">对比全部 42 家机场</a>
+    </div>
   </div>
 </section>
 
@@ -46,7 +48,8 @@ import Ridgelines from "../Ridgelines.astro";
   .split-text {
     width: 90%;
     margin: 24px 0 0 5%;
-    font-size: min(4.948827vw, 38px);
+    font-size: min(4.948827vw, 34px);
+    line-height: 1.4;
   }
   .split-btn {
     margin: 25px 0 0 5%;
@@ -59,7 +62,7 @@ import Ridgelines from "../Ridgelines.astro";
     .split-col {
       position: relative;
       min-height: 780px;
-      padding-top: 96px;
+      padding-top: 64px;
     }
     .split-pic {
       position: absolute;
@@ -69,12 +72,13 @@ import Ridgelines from "../Ridgelines.astro";
       height: 780px;
     }
     .split-text {
-      width: 49%;
+      width: 47%;
       margin: 0;
-      font-size: 38px;
+      font-size: 32px;
+      line-height: 1.42;
     }
     .split-btn {
-      margin: 24px 0 0;
+      margin: 32px 0 0;
     }
   }
 </style>

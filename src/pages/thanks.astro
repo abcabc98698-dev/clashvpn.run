@@ -1,24 +1,24 @@
 ---
 import BaseLayout from "../layouts/BaseLayout.astro";
 import Icon from "../components/Icon.astro";
-import { SITE } from "../config";
+import { ROUTES } from "../lib/urls";
 
-// Visitors land here after the plain HTML form (no JavaScript) was accepted by Formgong.
+// Visitors land here after the plain HTML form (no JavaScript) submission redirects.
 const steps = [
-  "One of us reads your message today or on the next working day.",
-  "We reply by email with two or three times for a 30-minute call.",
-  "On the call we tell you whether data can help, and what the diagnostic would cost.",
+  "编辑团队将在今天或下一个工作日内审阅您提交的选型需求或机场状态反馈。",
+  "我们将通过邮件向您发送针对您本地宽带与设备平台的 2–3 套专线配置建议。",
+  "若您提交的是机场失联或测速补充，核实后我们将同步更新至 42 家品牌库。",
 ];
 ---
 
-<BaseLayout title="Thank you" description="Your message has been received." noindex>
+<BaseLayout title="提交成功" description="您的信息已成功提交。" noindex>
   <section class="container-x py-20 sm:py-28">
     <div class="mx-auto max-w-2xl text-center">
       <span class="mx-auto grid size-20 place-items-center rounded-full bg-accent text-accent-text">
         <Icon name="check" size={40} />
       </span>
-      <h1 class="h-display mt-10"><span class="dim">We have</span> <span class="hl">your message</span></h1>
-      <p class="lead mt-6">What happens next:</p>
+      <h1 class="h-display mt-10"><span class="dim">已收到</span> <span class="hl">您的信息</span></h1>
+      <p class="lead mt-6">接下来我们会：</p>
     </div>
     <ol class="stagger mx-auto mt-12 grid max-w-2xl gap-4">
       {
@@ -31,8 +31,8 @@ const steps = [
       }
     </ol>
     <div class="mx-auto mt-12 flex max-w-2xl flex-col justify-center gap-3 sm:flex-row">
-      <a href="/" class="btn btn-secondary btn-lg">Back to the home page</a>
-      <a href={`tel:${SITE.phone.tel}`} class="btn btn-primary btn-lg"><Icon name="phone" /> {SITE.phone.display}</a>
+      <a href={ROUTES.home} class="btn btn-secondary btn-lg">返回首页</a>
+      <a href={ROUTES.brands} class="btn btn-primary btn-lg">浏览 42 家机场品牌库 <Icon name="arrow-right" class="icon-shift" /></a>
     </div>
   </section>
 </BaseLayout>

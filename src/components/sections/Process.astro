@@ -9,27 +9,27 @@ import Orbits from "../Orbits.astro";
 
 const steps = [
   {
-    title: "Diagnosis first",
-    body: "Two weeks with your data and the people who use the numbers every week. You get a ten-page memo: what the data can answer, what it cannot, and three options, each with a price.",
+    title: "01 · 明确用途与流量档位",
+    body: "先区分日常需求：仅用于网页查阅、Telegram 与 ChatGPT 对话，每月 50GB–100GB（如光速云 ¥99/年轻量包）完全够用；若高频观看 YouTube 4K、Netflix 或跨区 TikTok 运营，建议选择 130GB–300GB/月以上的 IEPL 专线套餐。",
   },
   {
-    title: "A single owner",
-    body: "Each project answers one business question, agreed in writing, with one named person on your side who decides. Any change of scope goes through that person and gets a new price before work goes on.",
+    title: "02 · 核查客户端与协议兼容",
+    body: "优先选择支持标准通用订阅（Clash Verge Rev / Mihomo / Shadowrocket / Hiddify / 软路由）且采用 VLESS、Trojan 或 Hysteria 2 协议的专线机场；零基础用户也可按需挑选提供一键专属客户端的品牌。",
   },
   {
-    title: "Your own tools",
-    body: "Models run in your own warehouse, or as a plain Python script on a server you already own. There is no platform to license, no fee per seat, and no login that stops working on the day our contract with you comes to an end, or after.",
+    title: "03 · 先测月付或小额不限时包",
+    body: "无论机场纸面带宽多高，不同省份的电信、联通、移动宽带在晚高峰（20:00–23:00）表现各异。使用本站汇总的 8 折优惠码（如光速云 gsu8888），先以月付或小流量包实测本地延迟与流媒体解锁，满意后再升级年付。",
   },
   {
-    title: "Handover & review",
-    body: "In the last week your analyst reruns everything while we watch and answer questions. Ninety days later we come back for a full day, at no charge, to check that the numbers still hold up in your hands and in your tools.",
+    title: "04 · 配置规则分流与备用链路",
+    body: "导入订阅后开启 Rule（规则分流）模式，让国内流量直连、AI 与流媒体流量精准走对应原生节点。重度办公用户建议额外储备一份按量计费的「永久不限时流量包」，彻底告别特殊时期单点失联风险。",
   },
 ];
 ---
 
 <section class="process" aria-labelledby="process-title">
   <div class="process-panel">
-    <h2 id="process-title" class="sr-only">How a project runs</h2>
+    <h2 id="process-title" class="sr-only">科学选型与订阅配置四步法</h2>
     <ol class="steps">
       {
         steps.map((step) => (
@@ -108,7 +108,7 @@ const steps = [
       padding: 50vh 0 144px;
     }
     .steps {
-      width: 450px;
+      width: 480px;
       max-width: calc(100% - 48px);
       margin-inline: auto;
       gap: 96px;
@@ -119,11 +119,11 @@ const steps = [
     }
     .step-title {
       margin-top: 24px;
-      font-size: 38px;
+      font-size: 34px;
     }
     .step-body {
       margin-top: 24.6px;
-      font-size: 24px;
+      font-size: 21px;
     }
     .process-orbits {
       top: 20vh;

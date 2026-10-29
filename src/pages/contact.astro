@@ -4,29 +4,33 @@ import PageHeader from "../components/PageHeader.astro";
 import ContactForm from "../components/ContactForm.astro";
 import Icon from "../components/Icon.astro";
 import { SITE } from "../config";
+import { ROUTES } from "../lib/urls";
 
 const { address } = SITE;
 const next = [
-  "One of us reads your message and replies within one working day.",
-  "We book a 30-minute call to hear the decision and look at what data you have.",
-  "If data can help, you get a written price for the two-week diagnostic. If it can't, we say so on the call.",
+  "编辑团队会在 1 个工作日内审阅您的网络环境描述或机场失联/测速反馈。",
+  "若是选型咨询，我们会根据您的运营商（电信/联通/移动）、设备平台与预算给出 2–3 个具体套餐与分流建议。",
+  "若是机场跑路、失联或测速投稿，经核实后我们将立即更新对应品牌的「风险提示」与状态标签。",
 ];
 ---
 
 <BaseLayout
-  title="Contact"
-  description={`Tell ${SITE.name} about the decision you are working on. We reply within one working day. ${SITE.phone.display}, ${SITE.email}.`}
+  title="1对1 选型诊断与机场测速/失联反馈台"
+  description={`向 ${SITE.name} 提交您的跨境网络选型需求、企业专线咨询或机场状态反馈。我们在 1 个工作日内回复。${SITE.email}。`}
 >
-  <PageHeader title="Tell us about the *decision*" lead="A few lines are enough: what you need to decide, by when, and where your data lives today." />
+  <PageHeader
+    title="1对1 *选型诊断* 与节点反馈"
+    lead="不确定哪家专线适合您当地的宽带？或者发现某家收录机场出现失联、降速、套餐变更？请告诉我们，我们会在 1 个工作日内响应。"
+  />
 
   <section class="pt-10 pb-24 lg:pb-36">
     <div class="container-x grid gap-14 lg:grid-cols-12 lg:gap-16">
       <div id="enquiry" class="scroll-mt-28 lg:col-span-7">
-        <h2 class="sr-only">Contact form</h2>
+        <h2 class="sr-only">选型诊断与反馈表单</h2>
         <ContactForm />
       </div>
       <aside class="lg:col-span-5" aria-labelledby="details-title">
-        <h2 id="details-title" class="text-2xl font-light">Other ways to reach us</h2>
+        <h2 id="details-title" class="text-2xl font-light">直接联系与快速通道</h2>
         <ul class="mt-6 space-y-4 text-lg">
           <li>
             <a href={`mailto:${SITE.email}`} class="contact-link"><Icon name="mail" class="text-accent" />{SITE.email}</a>
@@ -39,22 +43,32 @@ const next = [
             <span>{address.street}<br />{address.city}, {address.region} {address.postalCode}</span>
           </li>
         </ul>
-        <p class="mt-6 text-muted">{SITE.areaServed}.</p>
+        <p class="mt-6 text-muted">{SITE.areaServed}。</p>
 
-        <h2 class="mt-12 text-2xl font-light">Office hours</h2>
+        <div class="mt-8 rounded-2xl border border-accent/35 bg-surface p-5">
+          <h3 class="text-base font-medium text-accent">想立刻开始测试？</h3>
+          <p class="mt-2 text-xs leading-relaxed text-muted">
+            如果您希望直接体验目前综合排名第 1 的 IEPL + 企业内网双专线机场，可先前往查看光速云完整评测与 8 折优惠码。
+          </p>
+          <a href={ROUTES.brandDetail("guangsuyun")} class="mt-3 inline-flex items-center gap-1.5 text-xs font-medium text-accent underline">
+            前往光速云 (Guangsu Cloud) 评测页 →
+          </a>
+        </div>
+
+        <h2 class="mt-10 text-2xl font-light">人工审核与响应时间</h2>
         <dl class="mt-5 space-y-2">
           {
             SITE.hours.map((h) => (
               <div class="flex justify-between gap-4 border-b border-line pb-2">
                 <dt class="text-muted">{h.label}</dt>
-                <dd>{h.opens && h.closes ? `${h.opens} – ${h.closes}` : "Closed"}</dd>
+                <dd>{h.opens && h.closes ? `${h.opens} – ${h.closes}` : "节点监控自动巡检"}</dd>
               </div>
             ))
           }
         </dl>
         {SITE.hoursNote && <p class="mt-4 text-sm text-muted">{SITE.hoursNote}</p>}
 
-        <h2 class="mt-12 text-2xl font-light">What happens next</h2>
+        <h2 class="mt-10 text-2xl font-light">提交后我们会做什么</h2>
         <ol class="mt-6 space-y-5">
           {
             next.map((step, i) => (

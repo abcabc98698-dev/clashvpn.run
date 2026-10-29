@@ -1,7 +1,7 @@
 /* ==================================================================
    Motion. Numbers in the comments match the effect list in README.md.
    Durations, easings, ranges and start poses are the ones measured on
-   the reference page (bodagheeconsulting.com) with Playwright.
+   the reference design with Playwright.
 
    Rules that keep this file safe:
    - The default (non-animated) style of every element IS its final state:

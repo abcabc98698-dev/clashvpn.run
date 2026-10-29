@@ -1,0 +1,91 @@
+---
+import type { AirportBrand } from "../../data/brands";
+
+export interface Props {
+  brand?: AirportBrand;
+}
+
+const { brand } = Astro.props;
+const protocolText = brand ? brand.protocols.join(" / ") : "VLESS / Trojan / Hysteria 2 / SS";
+const lineText = brand ? brand.lineType : "IEPL 内网专线 + 企业级 BGP 入口";
+const regionText = brand ? brand.regions.slice(0, 6).join(" · ") : "香港 · 日本 · 新加坡 · 美国 · 台湾 · 英国";
+---
+
+<div class="rounded-2xl border border-line bg-surface p-6 md:p-8">
+  <div class="flex flex-wrap items-start justify-between gap-4 border-b border-line pb-5">
+    <div>
+      <div class="flex items-center gap-2.5">
+        <span class="inline-block h-2.5 w-2.5 rounded-full bg-accent"></span>
+        <span class="font-mono text-xs tracking-wider text-muted uppercase">
+          Network Path Observatory · 跨境链路拓扑解析
+        </span>
+      </div>
+      <h3 class="mt-2 text-xl text-ink md:text-2xl">
+        {brand ? `${brand.name} 传输链路架构图` : "IEPL / IPLC 专线与公网中转链路架构对比"}
+      </h3>
+    </div>
+    <span class="rounded-full border border-accent/35 bg-accent/10 px-3 py-1 font-mono text-xs text-accent">
+      {lineText}
+    </span>
+  </div>
+
+  <div class="mt-6 overflow-x-auto">
+    <svg
+      viewBox="0 0 920 220"
+      class="min-w-[680px] w-full h-auto"
+      role="img"
+      aria-label="客户端经由国内BGP入口、IEPL/IPLC内网专线抵达海外落地节点与AI流媒体服务的拓扑流程图"
+    >
+      <defs>
+        <linearGradient id="obsLineGrad" x1="0%" y1="0%" x2="100%" y2="0%">
+          <stop offset="0%" stop-color="#dcfd35" stop-opacity="0.25" />
+          <stop offset="50%" stop-color="#dcfd35" stop-opacity="0.95" />
+          <stop offset="100%" stop-color="#2ea043" stop-opacity="0.9" />
+        </linearGradient>
+      </defs>
+
+      <!-- Connecting Lines -->
+      <line x1="175" y1="110" x2="255" y2="110" stroke="url(#obsLineGrad)" stroke-width="2.5" stroke-dasharray="5 4" />
+      <line x1="425" y1="110" x2="505" y2="110" stroke="url(#obsLineGrad)" stroke-width="3" />
+      <line x1="685" y1="110" x2="755" y2="110" stroke="url(#obsLineGrad)" stroke-width="2.5" stroke-dasharray="5 4" />
+
+      <!-- Node 1: Local Client -->
+      <rect x="15" y="45" width="160" height="130" rx="14" fill="#040319" stroke="#222144" stroke-width="1.5" />
+      <text x="32" y="75" fill="#dcfd35" font-family="monospace" font-size="11">STEP 01 · CLIENT</text>
+      <text x="32" y="102" fill="#f3f3f7" font-size="15" font-weight="600">终端与代理客户端</text>
+      <text x="32" y="126" fill="#9a99b8" font-size="11">Clash Verge / Mihomo</text>
+      <text x="32" y="146" fill="#9a99b8" font-size="11">Shadowrocket / Hiddify</text>
+
+      <!-- Node 2: Domestic BGP Ingress -->
+      <rect x="255" y="45" width="170" height="130" rx="14" fill="#040319" stroke="#222144" stroke-width="1.5" />
+      <text x="272" y="75" fill="#dcfd35" font-family="monospace" font-size="11">STEP 02 · INGRESS</text>
+      <text x="272" y="102" fill="#f3f3f7" font-size="15" font-weight="600">国内多线 BGP 入口</text>
+      <text x="272" y="126" fill="#9a99b8" font-size="11">协议封装：{protocolText.slice(0, 22)}</text>
+      <text x="272" y="146" fill="#9a99b8" font-size="11">电信 / 联通 / 移动智能就近接入</text>
+
+      <!-- Node 3: Dedicated Line Backbone -->
+      <rect x="505" y="38" width="180" height="144" rx="14" fill="#0d0c26" stroke="#dcfd35" stroke-width="1.75" />
+      <text x="522" y="70" fill="#dcfd35" font-family="monospace" font-size="11">STEP 03 · BACKBONE</text>
+      <text x="522" y="98" fill="#f3f3f7" font-size="15" font-weight="600">跨境内网专线传输</text>
+      <text x="522" y="122" fill="#dcfd35" font-size="12">{lineText.slice(0, 18)}</text>
+      <text x="522" y="144" fill="#9a99b8" font-size="11">物理隔离公网国际出口拥堵</text>
+      <text x="522" y="162" fill="#9a99b8" font-size="11">晚高峰丢包率与抖动显著降低</text>
+
+      <!-- Node 4: Overseas Landing & Unlock -->
+      <rect x="755" y="45" width="150" height="130" rx="14" fill="#040319" stroke="#2ea043" stroke-width="1.5" />
+      <text x="772" y="75" fill="#2ea043" font-family="monospace" font-size="11">STEP 04 · EXIT</text>
+      <text x="772" y="102" fill="#f3f3f7" font-size="15" font-weight="600">海外原生落地解锁</text>
+      <text x="772" y="126" fill="#9a99b8" font-size="11">ChatGPT / Claude / Gemini</text>
+      <text x="772" y="146" fill="#9a99b8" font-size="11">Netflix / Disney+ / 4K</text>
+    </svg>
+  </div>
+
+  <div class="mt-4 flex flex-wrap items-center justify-between gap-3 border-t border-line/70 pt-4 text-xs text-muted">
+    <div>
+      <strong class="text-ink">主要落地节点区域：</strong>{regionText}
+    </div>
+    <div>
+      <strong class="text-ink">为什么 IEPL/IPLC 更稳：</strong>内网专线不经过普通公网国际出口审查与拥堵队列，特殊时期与晚高峰存活率远高于廉价直连。
+    </div>
+  </div>
+</div>

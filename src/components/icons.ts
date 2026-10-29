@@ -1,5 +1,5 @@
 /**
- * Inline icon set drawn for Orrery on a 24×24 grid (stroke icons, 1.5px).
+ * Inline vector icon set on a 24×24 grid (stroke icons, 1.5px).
  * No icon font and no third-party icon license: add your own by appending markup here.
  */
 export const ICONS = {

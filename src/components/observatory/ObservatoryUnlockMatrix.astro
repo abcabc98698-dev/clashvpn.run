@@ -1,0 +1,114 @@
+---
+import type { AirportBrand } from "../../data/brands";
+import { DATA_STATUS_META } from "../../data/brands";
+
+export interface Props {
+  brand: AirportBrand;
+}
+
+const { brand } = Astro.props;
+const unlockStatusMeta = DATA_STATUS_META[brand.unlock.dataStatus] ?? DATA_STATUS_META[brand.dataStatus];
+---
+
+<div class="rounded-2xl border border-line bg-surface p-6 md:p-8">
+  <div class="flex flex-wrap items-start justify-between gap-4 border-b border-line pb-5">
+    <div>
+      <div class="flex items-center gap-2.5">
+        <span class="inline-block h-2.5 w-2.5 rounded-full bg-emerald-400"></span>
+        <span class="font-mono text-xs tracking-wider text-muted uppercase">
+          Service Availability Matrix · AI 与流媒体解锁状态矩阵
+        </span>
+      </div>
+      <h3 class="mt-2 text-xl text-ink md:text-2xl">
+        {brand.name} 流媒体与 AI 生产力可用性看板
+      </h3>
+    </div>
+    <span class:list={["rounded-full border px-3 py-1 text-xs font-medium", unlockStatusMeta.badgeClass]}>
+      解锁数据口径：{unlockStatusMeta.label}
+    </span>
+  </div>
+
+  <div class="mt-6 grid gap-6 lg:grid-cols-2">
+    <div class="rounded-xl border border-line/80 bg-bg/45 p-5">
+      <div class="flex items-center justify-between border-b border-line/70 pb-3">
+        <h4 class="text-base font-medium text-ink">AI 生产力与大模型平台 (AI Services)</h4>
+        <span class="font-mono text-xs text-accent">ChatGPT / Claude / Gemini</span>
+      </div>
+
+      <div class="mt-4 space-y-3">
+        {
+          brand.unlock.aiSupported.map((item) => (
+            <div class="flex items-center justify-between gap-2 rounded-lg border border-line/60 bg-surface/60 px-3.5 py-2.5">
+              <span class="text-sm font-medium text-ink">{item}</span>
+              <span class="inline-flex items-center gap-1.5 rounded-full border border-emerald-400/35 bg-emerald-400/10 px-2.5 py-0.5 text-xs text-emerald-300">
+                <span class="h-1.5 w-1.5 rounded-full bg-emerald-400" />
+                支持解锁 (Operational)
+              </span>
+            </div>
+          ))
+        }
+        {
+          brand.unlock.aiConditional.map((item) => (
+            <div class="flex items-center justify-between gap-2 rounded-lg border border-line/60 bg-surface/60 px-3.5 py-2.5">
+              <span class="text-sm font-medium text-ink">{item}</span>
+              <span class="inline-flex items-center gap-1.5 rounded-full border border-amber-400/35 bg-amber-400/10 px-2.5 py-0.5 text-xs text-amber-300">
+                <span class="h-1.5 w-1.5 rounded-full bg-amber-400" />
+                视节点而定 (Node-Dependent)
+              </span>
+            </div>
+          ))
+        }
+        {
+          brand.unlock.aiSupported.length === 0 && brand.unlock.aiConditional.length === 0 && (
+            <div class="rounded-lg border border-line/60 bg-surface/60 p-3.5 text-xs text-muted">
+              当前品牌未披露具体 AI 平台解锁明细，列入「待核实 (Unverified)」。
+            </div>
+          )
+        }
+      </div>
+    </div>
+
+    <div class="rounded-xl border border-line/80 bg-bg/45 p-5">
+      <div class="flex items-center justify-between border-b border-line/70 pb-3">
+        <h4 class="text-base font-medium text-ink">全球流媒体与社媒平台 (Streaming & Social)</h4>
+        <span class="font-mono text-xs text-accent">Netflix / Disney+ / 4K</span>
+      </div>
+
+      <div class="mt-4 space-y-3">
+        {
+          brand.unlock.streamingSupported.map((item) => (
+            <div class="flex items-center justify-between gap-2 rounded-lg border border-line/60 bg-surface/60 px-3.5 py-2.5">
+              <span class="text-sm font-medium text-ink">{item}</span>
+              <span class="inline-flex items-center gap-1.5 rounded-full border border-emerald-400/35 bg-emerald-400/10 px-2.5 py-0.5 text-xs text-emerald-300">
+                <span class="h-1.5 w-1.5 rounded-full bg-emerald-400" />
+                支持解锁 (Operational)
+              </span>
+            </div>
+          ))
+        }
+        {
+          brand.unlock.streamingConditional.map((item) => (
+            <div class="flex items-center justify-between gap-2 rounded-lg border border-line/60 bg-surface/60 px-3.5 py-2.5">
+              <span class="text-sm font-medium text-ink">{item}</span>
+              <span class="inline-flex items-center gap-1.5 rounded-full border border-amber-400/35 bg-amber-400/10 px-2.5 py-0.5 text-xs text-amber-300">
+                <span class="h-1.5 w-1.5 rounded-full bg-amber-400" />
+                视节点而定 (Node-Dependent)
+              </span>
+            </div>
+          ))
+        }
+        {
+          brand.unlock.streamingSupported.length === 0 && brand.unlock.streamingConditional.length === 0 && (
+            <div class="rounded-lg border border-line/60 bg-surface/60 p-3.5 text-xs text-muted">
+              当前品牌未披露具体流媒体解锁清单，列入「待核实 (Unverified)」。
+            </div>
+          )
+        }
+      </div>
+    </div>
+  </div>
+
+  <div class="mt-5 rounded-xl border border-line/70 bg-bg/40 p-3.5 text-xs leading-relaxed text-muted">
+    <strong class="text-ink">解锁说明：</strong>{brand.unlock.note}
+  </div>
+</div>

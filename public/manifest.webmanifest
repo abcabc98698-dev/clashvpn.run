@@ -1,0 +1,23 @@
+{
+  "name": "Vektor Pulse Analytics",
+  "short_name": "Vektor",
+  "description": "Forecasting, pricing and decision intelligence for growing firms",
+  "start_url": "/",
+  "scope": "/",
+  "display": "standalone",
+  "background_color": "#040319",
+  "theme_color": "#040319",
+  "icons": [
+    {
+      "src": "/assets/brand/favicon.svg",
+      "sizes": "any",
+      "type": "image/svg+xml",
+      "purpose": "any"
+    },
+    {
+      "src": "/assets/brand/apple-touch-icon.png",
+      "sizes": "180x180",
+      "type": "image/png"
+    }
+  ]
+}

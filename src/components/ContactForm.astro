@@ -1,13 +1,14 @@
 ---
 /**
- * Contact form posting to Formgong (https://formgong.com).
+ * Progressive-enhancement contact form.
  *
- * Without JavaScript it is a plain HTML POST: Formgong stores the message, notifies you and
- * redirects the visitor to /thanks/. With JavaScript it is sent with fetch and the visitor stays
- * on the page. The success state is shown ONLY when the server answers { success: true }.
+ * Without JavaScript it works as a standard HTML POST form with a redirect to /thanks/.
+ * With JavaScript it submits asynchronously via fetch. The success state is shown ONLY
+ * when the server explicitly responds with JSON `{ success: true }`.
  */
 import { getCollection } from "astro:content";
 import { SITE } from "../config";
+import { ROUTES, canonicalUrl } from "../lib/urls";
 import Icon from "./Icon.astro";
 
 interface Props {
@@ -17,29 +18,18 @@ interface Props {
 const { id = "enquiry" } = Astro.props;
 
 const services = (await getCollection("services")).sort((a, b) => a.data.order - b.data.order);
-const PLACEHOLDER_KEY = "fk_your_access_key";
-const accessKey = import.meta.env.PUBLIC_FORMGONG_ACCESS_KEY || SITE.formgong.accessKey;
-const endpoint = import.meta.env.PUBLIC_FORMGONG_ENDPOINT || SITE.formgong.endpoint;
-const redirect = new URL("/thanks/", Astro.site ?? Astro.url).href;
-const showKeyNotice = import.meta.env.DEV && accessKey === PLACEHOLDER_KEY;
+const accessKey = import.meta.env.PUBLIC_FORM_ACCESS_KEY || SITE.form.accessKey;
+const endpoint = import.meta.env.PUBLIC_FORM_ENDPOINT || SITE.form.endpoint;
+const redirect = canonicalUrl(ROUTES.thanks, Astro.site ?? SITE.url);
 const f = (name: string) => `${id}-${name}`;
 ---
 
 <div class="form-card card relative p-5 sm:p-8" data-contact data-email={SITE.email}>
-  {
-    showKeyNotice && (
-      <p class="mb-6 rounded-xl border border-dashed border-accent p-4 text-sm">
-        <strong>Dev notice:</strong> add your Formgong access key as <code>PUBLIC_FORMGONG_ACCESS_KEY</code> in <code>.env</code>
-        (see the README). This note is not shown in production builds.
-      </p>
-    )
-  }
-
   <form action={endpoint} method="POST" class="relative" data-contact-form>
-    <input type="hidden" name="access_key" value={accessKey} />
-    <input type="hidden" name="_lang" value="en" />
+    {accessKey && <input type="hidden" name="access_key" value={accessKey} />}
+    <input type="hidden" name="_lang" value={SITE.lang} />
     <input type="hidden" name="_redirect" value={redirect} />
-    <input type="hidden" name="_subject" value={SITE.formgong.subject} />
+    <input type="hidden" name="_subject" value={SITE.form.subject} />
     <!-- Spam honeypot: never fill it, never remove it. -->
     <div aria-hidden="true" style="position:absolute;inset-inline-start:0;top:0;width:1px;height:1px;overflow:hidden;clip-path:inset(50%)">
       <input type="text" name="botcheck" tabindex="-1" autocomplete="off" />
@@ -47,29 +37,31 @@ const f = (name: string) => `${id}-${name}`;
 
     <div class="grid gap-5 sm:grid-cols-2">
       <div>
-        <label for={f("name")} class="field-label">Your name</label>
+        <label for={f("name")} class="field-label">您的称呼</label>
         <input id={f("name")} name="name" type="text" class="field" autocomplete="name" required maxlength="120" />
       </div>
       <div>
-        <label for={f("company")} class="field-label">Company <span class="field-hint">(optional)</span></label>
+        <label for={f("company")} class="field-label">宽带运营商与地区 <span class="field-hint">(选填，如广东电信)</span></label>
         <input id={f("company")} name="company" type="text" class="field" autocomplete="organization" maxlength="160" />
       </div>
       <div class="sm:col-span-2">
-        <label for={f("email")} class="field-label">Work email</label>
+        <label for={f("email")} class="field-label">联系邮箱 (用于接收诊断方案或核实回复)</label>
         <input id={f("email")} name="email" type="email" class="field" autocomplete="email" required maxlength="160" />
       </div>
       <div class="sm:col-span-2">
-        <label for={f("topic")} class="field-label">What is it about?</label>
+        <label for={f("topic")} class="field-label">咨询或反馈类型</label>
         <div class="relative">
           <select id={f("topic")} name="topic" class="field">
-            <option value="Not sure yet">Not sure yet</option>
+            <option value="1对1 机场选型诊断">1对1 机场选型诊断 (按预算与场景推荐)</option>
+            <option value="机场状态/失联/改价反馈">收录机场状态 / 失联 / 套餐变更反馈</option>
+            <option value="客户端与订阅导入排错">客户端与订阅导入报错求助</option>
             {services.map((s) => <option value={s.data.title}>{s.data.title}</option>)}
           </select>
           <Icon name="chevron-down" size={18} class="pointer-events-none absolute top-1/2 right-4 -translate-y-1/2 text-muted" />
         </div>
       </div>
       <div class="sm:col-span-2">
-        <label for={f("message")} class="field-label">The decision you are working on</label>
+        <label for={f("message")} class="field-label">详细需求或反馈说明</label>
         <textarea
           id={f("message")}
           name="message"
@@ -77,7 +69,7 @@ const f = (name: string) => `${id}-${name}`;
           class="field resize-y"
           required
           maxlength="4000"
-          placeholder="For example: how many units to order for spring, or whether to raise prices on the basic plan."></textarea>
+          placeholder="例如：日常使用 Mac + iPhone，主要用 ChatGPT 与看 YouTube 4K，月预算 20 元以内；或反馈某家机场最新测速与套餐变动情况。"></textarea>
       </div>
     </div>
 
@@ -91,10 +83,10 @@ const f = (name: string) => `${id}-${name}`;
         <circle cx="12" cy="12" r="9" stroke="currentColor" stroke-width="3" opacity=".3"></circle>
         <path d="M21 12a9 9 0 0 0-9-9" stroke="currentColor" stroke-width="3" stroke-linecap="round"></path>
       </svg>
-      <span data-submit-label>Send message</span>
+      <span data-submit-label>提交选型诊断 / 反馈</span>
       <Icon name="arrow-right" class="icon-shift submit-arrow" />
     </button>
-    <p class="mt-4 text-center text-sm text-muted">We reply within one working day and use your details only to answer you.</p>
+    <p class="mt-4 text-center text-sm text-muted">我们会在 1 个工作日内回复，您的邮箱仅用于本次咨询答复。</p>
   </form>
 
   <div class="form-success py-6 text-center" data-form-success hidden>
@@ -102,12 +94,12 @@ const f = (name: string) => `${id}-${name}`;
       <circle class="check-ring" pathLength="1" cx="40" cy="40" r="36" stroke="currentColor" stroke-width="3"></circle>
       <path class="check-mark" pathLength="1" d="M25 41.5 35.5 52 56 30" stroke="currentColor" stroke-width="4" stroke-linecap="round" stroke-linejoin="round"></path>
     </svg>
-    <h3 class="mt-6 text-3xl font-light tracking-tight" tabindex="-1" data-success-heading>Message received</h3>
+    <h3 class="mt-6 text-3xl font-light tracking-tight" tabindex="-1" data-success-heading>信息已收到</h3>
     <p class="mx-auto mt-3 max-w-sm text-muted">
-      One of us will reply within one working day. If it is urgent, call{" "}
-      <a href={`tel:${SITE.phone.tel}`} class="whitespace-nowrap text-accent">{SITE.phone.display}</a>.
+      我们会在 1 个工作日内通过邮件回复您。如需紧急联系，可致电或发信至{" "}
+      <a href={`tel:${SITE.phone.tel}`} class="whitespace-nowrap text-accent">{SITE.phone.display}</a>。
     </p>
-    <button type="button" class="btn btn-secondary mt-8" data-form-reset>Send another message</button>
+    <button type="button" class="btn btn-secondary mt-8" data-form-reset>继续提交另一条信息</button>
   </div>
 
   <p class="sr-only" role="status" data-form-live></p>
@@ -133,7 +125,7 @@ const f = (name: string) => `${id}-${name}`;
       button.disabled = sending;
       form.setAttribute("aria-busy", String(sending));
       card.classList.toggle("is-sending", sending);
-      label.textContent = sending ? "Sending…" : idleLabel;
+      label.textContent = sending ? "正在提交…" : idleLabel;
     };
 
     const showError = (message: string) => {
@@ -161,7 +153,7 @@ const f = (name: string) => `${id}-${name}`;
         reply = await response.json().catch(() => null);
       } catch {
         setSending(false);
-        showError(`We couldn't reach the server. Check your connection and try again, or email us at ${email}.`);
+        showError(`暂时无法连接表单服务器，请检查网络后重试，或直接发送邮件至 ${email}。`);
         return;
       }
       setSending(false);
@@ -171,13 +163,13 @@ const f = (name: string) => `${id}-${name}`;
         form.reset();
         form.hidden = true;
         success.hidden = false;
-        live.textContent = "Message received. We reply within one working day.";
+        live.textContent = "信息已收到，我们会在 1 个工作日内回复。";
         success.scrollIntoView({ block: "nearest" });
         success.querySelector<HTMLElement>("[data-success-heading]")?.focus({ preventScroll: true });
         return;
       }
       const message = typeof reply?.message === "string" && reply.message.trim() ? reply.message : "";
-      showError(message || `Your message was not sent. Please try again, or email us at ${email}.`);
+      showError(message || `信息尚未发送成功，请稍后重试或直接发邮件至 ${email}。`);
     });
 
     card.querySelector("[data-form-reset]")?.addEventListener("click", () => {

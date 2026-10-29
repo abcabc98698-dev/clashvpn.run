@@ -1,28 +1,40 @@
 ---
-import { getCollection, render } from "astro:content";
+import { getCollection } from "astro:content";
 import BaseLayout from "../../layouts/BaseLayout.astro";
+import TopicMatrixNav from "../../components/TopicMatrixNav.astro";
 import PageHeader from "../../components/PageHeader.astro";
 import ServiceArt from "../../components/ServiceArt.astro";
 import Icon from "../../components/Icon.astro";
+import { SITE } from "../../config";
+import { ROUTES } from "../../lib/urls";
 
 const services = (await getCollection("services")).sort((a, b) => a.data.order - b.data.order);
-const rendered = await Promise.all(services.map(async (s) => ({ s, Content: (await render(s)).Content })));
+
+const itemListSchema = services.map((s) => ({
+  name: s.data.title,
+  url: ROUTES.serviceDetail(s.id),
+  description: s.data.description ?? s.data.summary,
+}));
 ---
 
 <BaseLayout
-  title="Services"
-  description="Data audits, reporting, demand forecasting, pricing, experiments and customer analysis, each with a written scope and a fixed price."
+  title="六大核心选型场景与配置方案总览"
+  description="覆盖 IEPL/IPLC 专线选型、ChatGPT 与 Claude AI 锁区防降智、4K 流媒体与 TikTok 跨区、百元级年付平价入门、永久不限时流量包容灾及全平台客户端排错的 6 大深度专题总览。"
+  itemList={itemListSchema}
 >
-  <PageHeader title="Six kinds of *work*" lead="Each project starts with a written scope and a fixed price. The prices below are where most projects start; the scope sets the final figure." />
+  <PageHeader
+    title="六大核心 *选型场景*"
+    lead="不同跨境网络用途对协议、专线架构、分流规则与流量计费模式的要求截然不同。本页汇总六大场景的核心判别标准与交付清单，点击任意专题可进入独立深度指南查看完整配置代码与排查树。"
+  />
 
   <div class="container-x pb-24 lg:pb-36">
-    <nav aria-label="Services on this page" class="mt-10">
+    <nav aria-label="本页选型场景快速跳转" class="mt-10">
       <ul class="flex flex-wrap gap-2">
         {
           services.map((s) => (
             <li>
               <a href={`#${s.id}`} class="chip">
-                {s.data.title}
+                0{s.data.order} · {s.data.title}
               </a>
             </li>
           ))
@@ -32,58 +44,91 @@ const rendered = await Promise.all(services.map(async (s) => ({ s, Content: (awa
 
     <div class="mt-16 divide-y divide-line border-y border-line">
       {
-        rendered.map(({ s, Content }) => (
-          <section id={s.id} class="reveal grid scroll-mt-28 gap-10 py-16 lg:grid-cols-12 lg:gap-12 lg:py-20" aria-labelledby={`${s.id}-title`}>
+        services.map((s) => (
+          <section
+            id={s.id}
+            class="reveal grid scroll-mt-28 gap-10 py-16 lg:grid-cols-12 lg:gap-12 lg:py-20"
+            aria-labelledby={`${s.id}-title`}
+          >
             <div class="lg:col-span-4">
-              <div class="rounded-2xl bg-accent p-6 text-accent-text">
+              <a
+                href={ROUTES.serviceDetail(s.id)}
+                class="block rounded-2xl bg-accent p-6 text-accent-text transition hover:opacity-95"
+                aria-label={`进入 ${s.data.title} 独立深度专题`}
+              >
                 <ServiceArt kind={s.data.art} />
-              </div>
+              </a>
               <dl class="mt-8 grid grid-cols-2 gap-6">
                 {s.data.priceFrom && (
                   <div>
-                    <dt class="text-sm text-muted">From</dt>
+                    <dt class="text-sm text-muted">参考门槛</dt>
                     <dd class="mt-1 text-2xl font-light text-accent">{s.data.priceFrom}</dd>
                   </div>
                 )}
                 {s.data.duration && (
                   <div>
-                    <dt class="text-sm text-muted">Typical length</dt>
+                    <dt class="text-sm text-muted">适用模式</dt>
                     <dd class="mt-1 text-2xl font-light">{s.data.duration}</dd>
                   </div>
                 )}
               </dl>
+              {s.data.category && (
+                <div class="mt-6 rounded-xl border border-line bg-surface p-4 text-xs text-muted">
+                  <div>
+                    所属集群：<strong class="text-ink">{s.data.contentCluster ?? s.data.category}</strong>
+                  </div>
+                  {s.data.dateModified && (
+                    <div class="mt-1 font-mono">最后核验更新：{s.data.dateModified}</div>
+                  )}
+                </div>
+              )}
             </div>
+
             <div class="lg:col-span-8">
-              <h2 id={`${s.id}-title`} class="h-section">
-                {s.data.title}
-              </h2>
-              <p class="mt-4 text-lg text-muted">{s.data.tags}</p>
-              <p class="mt-8 text-xl leading-relaxed">{s.data.summary}</p>
-              <div class="prose-orrery mt-8">
-                <Content />
+              <div class="flex flex-wrap items-center gap-2 text-xs font-mono text-accent">
+                <span>SCENARIO 0{s.data.order}</span>
+                {s.data.pageRole && <span class="text-muted">· {s.data.pageRole}</span>}
               </div>
+              <h2 id={`${s.id}-title`} class="h-section mt-2">
+                <a href={ROUTES.serviceDetail(s.id)} class="hover:text-accent">
+                  {s.data.title}
+                </a>
+              </h2>
+              <p class="mt-3 text-lg text-accent">{s.data.tags}</p>
+              <p class="mt-6 text-xl leading-relaxed text-ink">{s.data.summary}</p>
+              {s.data.description && (
+                <p class="mt-4 text-base leading-relaxed text-muted">{s.data.description}</p>
+              )}
+
               {s.data.deliverables.length > 0 && (
-                <div class="mt-10 rounded-2xl border border-line p-6 sm:p-8">
-                  <h3 class="text-lg">What you keep</h3>
+                <div class="mt-8 rounded-2xl border border-line bg-surface/60 p-6 sm:p-8">
+                  <h3 class="text-lg font-medium text-ink">独立专题页核心包含内容</h3>
                   <ul class="mt-5 grid gap-3 sm:grid-cols-2">
                     {s.data.deliverables.map((d) => (
-                      <li class="flex gap-3 text-muted">
+                      <li class="flex gap-3 text-sm text-muted">
                         <Icon name="check" size={20} class="mt-0.5 shrink-0 text-accent" />
-                        <span>{d}</span>
+                        <span class="text-ink/90">{d}</span>
                       </li>
                     ))}
                   </ul>
                 </div>
               )}
-              <a href="/contact/#enquiry" class="btn btn-secondary mt-10">
-                Ask about {s.data.title.toLowerCase()} <Icon name="arrow-right" class="icon-shift" />
-              </a>
+
+              <div class="mt-8 flex flex-wrap gap-4">
+                <a href={ROUTES.serviceDetail(s.id)} class="btn btn-primary">
+                  阅读《{s.data.title}》完整深度指南 <Icon name="arrow-right" class="icon-shift" />
+                </a>
+                <a href={SITE.cta.href} class="btn btn-secondary">
+                  浏览 42 家机场实测库
+                </a>
+              </div>
             </div>
           </section>
         ))
       }
     </div>
   </div>
+  <TopicMatrixNav />
 </BaseLayout>
 
 <style>

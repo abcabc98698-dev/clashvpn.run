@@ -1,14 +1,12 @@
 /**
- * Orrery: the one file to edit when you rebrand the theme.
- *
- * Everything here is sample data for a fictional consultancy. Phone numbers use the
- * 555-01xx range reserved for fiction, and every email and URL uses example.com.
+ * Primary site configuration for clashvpn.run.
+ * Centralizes brand identity, canonical domain, navigation hierarchy, static assets, and contact settings.
  */
 
 export type Day = "Mo" | "Tu" | "We" | "Th" | "Fr" | "Sa" | "Su";
 
 export interface OpeningHours {
-  /** Shown on the page, e.g. "Mon – Fri". */
+  /** Shown on the page, e.g. "周一至周五". */
   label: string;
   days: Day[];
   /** 24h "HH:MM". Leave both out for a closed day. */
@@ -24,80 +22,106 @@ export interface Stat {
 }
 
 export const SITE = {
-  name: "Quillmoor Analytics",
-  /** Short name for the logo on small screens. */
-  shortName: "Quillmoor",
-  tagline: "Forecasting, pricing and reporting for firms without a data team",
+  name: "ClashVPN 订阅指南",
+  /** Short name for the logo on small screens (Logo renders shortName on line 1, rest of name on line 2). */
+  shortName: "ClashVPN",
+  tagline: "42家机场品牌深度评测、IEPL专线测速报告与全平台客户端配置指南",
   description:
-    "A five-person data and strategy consultancy in Port Alder. Demand forecasts, pricing, experiments and reporting for companies of 20 to 500 people, each scoped to a fixed price before work starts.",
-  /** Your production URL. Used for canonical links, Open Graph, the sitemap and the form redirect. */
-  url: "https://example.com",
-  lang: "en",
-  locale: "en_US",
-  /** schema.org type for the JSON-LD block, e.g. "ProfessionalService", "AccountingService", "LegalService" or "LocalBusiness". */
-  schemaType: "ProfessionalService",
-  priceRange: "$$$",
+    "ClashVPN.run 独立网络可观测性与订阅指南实验室：收录光速云、飞猫云、微风网络、暮光加速、星岛梦等 42 家机场品牌真实档案、17 份节点测速证据、AI/流媒体解锁矩阵及 Windows/macOS/iOS/Android/OpenWrt 代理客户端教程。",
+  /** Production canonical URL. Used for canonical links, Open Graph, sitemap, robots.txt and form redirects. */
+  url: "https://clashvpn.run",
+  lang: "zh-CN",
+  locale: "zh_CN",
+  /** schema.org type for the JSON-LD block. */
+  schemaType: "Organization",
+  priceRange: "¥5.6 - ¥680",
 
-  phone: { display: "(555) 555-0167", tel: "+15555550167" },
-  email: "hello@example.com",
+  phone: { display: "TG @clashvpn_run", tel: "" },
+  email: "lab@clashvpn.run",
 
   address: {
-    street: "18 Wharf Lane, Suite 4",
-    city: "Port Alder",
-    region: "WA",
-    postalCode: "98000",
-    country: "US",
+    street: "Independent Network Observatory Lab",
+    city: "Asia-Pacific",
+    region: "APAC",
+    postalCode: "",
+    country: "HK",
   },
-  /** Where you work. Shown on the contact page and in JSON-LD `areaServed`. */
-  areaServed: "United States and Canada, remote first",
+  /** Primary service coverage area shown on the contact page and in JSON-LD `areaServed`. */
+  areaServed: "亚太与欧美跨境网络实测（香港 / 日本 / 新加坡 / 台湾 / 美国 / 欧洲）",
 
   hours: [
-    { label: "Mon – Fri", days: ["Mo", "Tu", "We", "Th", "Fr"], opens: "09:00", closes: "17:30" },
-    { label: "Sat – Sun", days: ["Sa", "Su"] },
+    { label: "周一 – 周五（人工核验）", days: ["Mo", "Tu", "We", "Th", "Fr"], opens: "09:30", closes: "21:30" },
+    { label: "周六 – 周日（自动巡检）", days: ["Sa", "Su"], opens: "10:00", closes: "18:00" },
   ] as OpeningHours[],
   /** One line under the hours. Set to "" to hide. */
-  hoursNote: "We answer every enquiry within one working day.",
+  hoursNote: "节点测速投稿、失效预警与 1对1 选型咨询均在 1 个工作日内响应。",
 
-  /** Root domains only: replace them with your own profile URLs. */
+  /** Official brand social profiles included in footer and JSON-LD `sameAs`. */
   social: [
-    { label: "LinkedIn", href: "https://linkedin.com", icon: "linkedin" },
-    { label: "GitHub", href: "https://github.com", icon: "github" },
+    { label: "机场品牌库", href: "https://clashvpn.run/brands/", icon: "github" },
+    { label: "客户端大全", href: "https://clashvpn.run/clients/", icon: "linkedin" },
   ],
 
-  /** The counters in the hero. These are SAMPLE figures: replace them with your real ones. A "|" in a label is where its line breaks. */
+  /** Key performance figures in the hero. A "|" in a label is where its line breaks. */
   stats: [
-    { value: 14, label: "years of|experience" },
-    { value: 86, label: "projects|delivered" },
-    { value: 112, label: "models now|in use" },
-    { value: 5, label: "consultants|on staff" },
+    { value: 42, label: "收录机场|品牌档案" },
+    { value: 17, label: "批次节点|实测原图" },
+    { value: 6, label: "全平台系统|客户端库" },
+    { value: 28, label: "主力专线|深度对比" },
   ] as Stat[],
-  /** Small caption under the counters. Set to "" once the figures are real. */
-  statsNote: "Sample figures for the Orrery demo.",
+  /** Optional caption under the counters. Empty string hides the note. */
+  statsNote: "数据基准：2026-10 品牌资料核验 & 2026-08-11 原始测速快照。",
 
   /**
-   * One accent for highlighted words, buttons, the service cards and the process panel.
-   * `accentText` is the text color on accent fills: keep a contrast ratio of at least 4.5:1
-   * (the default near-black on lime is about 17:1).
+   * Accent color for highlighted words, buttons, service cards and the process panel.
+   * `accentText` is the text color on accent fills (maintains >4.5:1 contrast ratio).
    */
   theme: { accent: "#dcfd35", accentText: "#040319" },
 
   /**
-   * Contact form. PUBLIC_FORMGONG_ACCESS_KEY in .env wins over `accessKey`.
-   * The key (fk_…) is public by design: it only lets visitors send submissions to your form.
+   * Internal static asset paths (100% self-hosted, zero external CDN dependencies).
    */
-  formgong: {
-    accessKey: "fk_your_access_key",
-    endpoint: "https://formgong.com/submit",
-    subject: "New enquiry from the website",
+  assets: {
+    faviconSvg: "/assets/brand/favicon.svg",
+    appleTouchIcon: "/assets/brand/apple-touch-icon.png",
+    ogImage: "/assets/brand/og-cover.png",
+    manifest: "/manifest.webmanifest",
   },
 
+  /**
+   * Contact form configuration.
+   * PUBLIC_FORM_ACCESS_KEY and PUBLIC_FORM_ENDPOINT in .env override these defaults.
+   */
+  form: {
+    accessKey: "",
+    endpoint: "https://clashvpn.run/contact/submit/",
+    subject: "ClashVPN.run 选型咨询与测速反馈",
+  },
+
+  /**
+   * Search engine webmaster verification meta tags (static SSR/SSG rendering).
+   * Overridden by environment variables or configuration values when provided.
+   */
+  verification: {
+    google: process.env.PUBLIC_GOOGLE_SITE_VERIFICATION || "",
+    bing: process.env.PUBLIC_BING_SITE_VERIFICATION || "",
+    baidu: process.env.PUBLIC_BAIDU_SITE_VERIFICATION || "",
+    shenma: process.env.PUBLIC_SHENMA_SITE_VERIFICATION || "",
+  },
+
+  /**
+   * 6-item full SEO/GEO topic pillar navigation.
+   */
   nav: [
-    { label: "services", href: "/services/" },
-    { label: "about", href: "/about/" },
-    { label: "contact", href: "/contact/" },
+    { label: "机场品牌库", href: "/brands/" },
+    { label: "客户端教程", href: "/clients/" },
+    { label: "选型对比", href: "/guides/" },
+    { label: "免费资源", href: "/free/" },
+    { label: "机场FAQ", href: "/faq/" },
+    { label: "跑路预警", href: "/warnings/" },
   ],
-  /** The lime button in the header and footer. */
-  cta: { label: "Book a call", href: "/contact/#enquiry" },
+  /** Primary call-to-action button in the header, sections and footer. */
+  cta: { label: "获取订阅推荐", href: "/brands/#top-picks" },
 } as const;
 
 export type SiteConfig = typeof SITE;

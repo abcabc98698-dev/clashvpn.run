@@ -2,9 +2,10 @@
 /**
  * 9. Accent service card inside its staircase track (see Services.astro). The track is the
  * sticky card's containing block; the 3D flip-in is [data-enter="flip"] in effects.css; the line
- * drawing is ServiceArt. The whole card links to the service on the services page.
+ * drawing is ServiceArt. The whole card links to the dedicated service page.
  */
 import type { CollectionEntry } from "astro:content";
+import { ROUTES } from "../lib/urls";
 import ServiceArt from "./ServiceArt.astro";
 
 interface Props {
@@ -19,7 +20,7 @@ const { title, tags, art } = service.data;
 <li class="svc-track" style={style}>
   <div class="svc-card" data-enter="flip">
     <h3 class="svc-title">
-      <a href={`/services/#${service.id}`} class="svc-link">{title}</a>
+      <a href={ROUTES.serviceDetail(service.id)} class="svc-link">{title}</a>
     </h3>
     <p class="svc-tags">{tags}</p>
     <ServiceArt kind={art} class="svc-art" />

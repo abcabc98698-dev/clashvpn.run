@@ -1,6 +1,8 @@
 ---
 /** 13. Footer over an animated 3D field of dots (canvas, src/scripts/scenes.ts). */
 import { SITE } from "../config";
+import { ROUTES } from "../lib/urls";
+import { AFFILIATE_DISCLOSURE } from "../data/links";
 
 const { address } = SITE;
 const year = new Date().getFullYear();
@@ -11,24 +13,28 @@ const year = new Date().getFullYear();
   <span class="footer-rule" aria-hidden="true"></span>
   <div class="container-x footer-grid">
     <div class="f-touch">
-      <p class="f-big">get in touch<span class="text-accent">.</span></p>
+      <p class="f-big">开始科学选型<span class="text-accent">.</span></p>
       <a href={SITE.cta.href} class="btn btn-primary f-btn">{SITE.cta.label}</a>
       <address class="f-address">
         {address.street}<br />
-        {address.city}, {address.region} {address.postalCode}
+        {address.city} · {address.region}
       </address>
     </div>
 
     <div class="f-col f-enquiries">
-      <h2 class="f-head">enquiries</h2>
+      <h2 class="f-head">核心专题矩阵</h2>
       <ul class="f-list">
-        <li><a href={`mailto:${SITE.email}`} class="f-link">{SITE.email}</a></li>
-        <li><a href={`tel:${SITE.phone.tel}`} class="f-link">{SITE.phone.display}</a></li>
+        <li><a href={ROUTES.services} class="f-link">六大场景深度选型指南</a></li>
+        <li><a href={ROUTES.free} class="f-link">免费资源与开源规则全景库</a></li>
+        <li><a href={ROUTES.faq} class="f-link">机场 FAQ 60问知识百科</a></li>
+        <li><a href={ROUTES.warnings} class="f-link">跑路预警与 42 家风险雷达</a></li>
+        <li><a href={ROUTES.brandDetail("guangsuyun")} class="f-link">榜首首选：光速云深度评测</a></li>
+        <li><a href={ROUTES.contact} class="f-link">1对1 选型诊断与失联反馈</a></li>
       </ul>
     </div>
 
     <nav aria-labelledby="footer-links" class="f-col f-links">
-      <h2 id="footer-links" class="f-head">links</h2>
+      <h2 id="footer-links" class="f-head">快速导航</h2>
       <ul class="f-list">
         {
           SITE.nav.map((item) => (
@@ -39,18 +45,20 @@ const year = new Date().getFullYear();
             </li>
           ))
         }
+        <li><a href="/services/data-audit/" class="f-link">IEPL 与 IPLC 专线选型</a></li>
+        <li><a href="/services/reporting/" class="f-link">ChatGPT 与 Claude 解锁</a></li>
       </ul>
     </nav>
 
     <div class="f-legal">
-      <p>&copy; {year} {SITE.name}. A made-up business.</p>
-      <p class="f-small">Orrery theme for Astro. Forms by <a href="https://formgong.com" class="underline underline-offset-4">Formgong</a>.</p>
+      <p>&copy; {year} {SITE.name} (clashvpn.run). 保留所有权利。</p>
+      <p class="f-small mt-1">{AFFILIATE_DISCLOSURE}</p>
     </div>
     <ul class="f-social">
       {
         SITE.social.map((s) => (
           <li>
-            <a href={s.href} class="f-small" rel="noopener" target="_blank">
+            <a href={s.href} class="f-small">
               {s.label}
             </a>
           </li>
@@ -137,7 +145,7 @@ const year = new Date().getFullYear();
     color: var(--c-ink);
   }
   .f-small {
-    font-size: 14px;
+    font-size: 13px;
     color: var(--c-muted);
   }
   .f-social {

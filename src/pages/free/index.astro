@@ -1,0 +1,660 @@
+---
+import BaseLayout from "../../layouts/BaseLayout.astro";
+import PageHeader from "../../components/PageHeader.astro";
+import TopicMatrixNav from "../../components/TopicMatrixNav.astro";
+import {
+  DIAGNOSTIC_CATEGORY_META,
+  DIAGNOSTIC_TOOLS_MATRIX,
+  FREE_EMERGENCY_CHANNELS,
+  FREE_RESOURCE_FAQS,
+  LOW_BARRIER_TRIAL_PACKS,
+  OPEN_SOURCE_RULE_PROVIDERS,
+  RULE_CATEGORY_META,
+  SUBSTORE_DOCKER_COMPOSE_YAML,
+  WARP_MIHOMO_CHAIN_YAML,
+  type DiagnosticCategory,
+  type RuleCategory,
+} from "../../data/free-resources";
+import { ROUTES } from "../../lib/urls";
+
+const pageTitle = "2026 跨境网络免费资源、GitHub 开源分流规则与自检工具全景库";
+const pageDescription =
+  "ClashVPN.run 零蜜罐安全版免费资源中心：整合 Cloudflare WARP+ 零信任提取与 Mihomo 链式代理配置、GitHub 四大开源分流规则集（MetaCubeX/Loyalsoldier/ACL4SSR/Blackmatrix7）、Sub-Store 本地私有转换、20+ 全球 IP/DNS 自检工具与 10 款低门槛正规专线验货包。";
+
+const articleSchema = {
+  headline: pageTitle,
+  description: pageDescription,
+  datePublished: "2026-10-19",
+  dateModified: "2026-10-29",
+  author: "ClashVPN.run 网络可观测性实验室",
+  section: "免费资源与开源分流规则矩阵",
+  keywords: [
+    "免费Clash规则",
+    "Cloudflare WARP零信任配置",
+    "MetaCubeX分流规则",
+    "Blackmatrix7规则集",
+    "Sub-Store订阅转换",
+    "IP纯净度检测工具",
+    "DNS泄漏自检",
+  ],
+};
+
+const itemListSchema = [
+  ...OPEN_SOURCE_RULE_PROVIDERS.map((r) => ({
+    name: `${r.name} (${r.repoName})`,
+    url: r.githubUrl,
+    description: r.summary,
+  })),
+  ...DIAGNOSTIC_TOOLS_MATRIX.map((t) => ({
+    name: `${t.name} - ${t.categoryLabel}`,
+    url: t.url,
+    description: t.usageGuide,
+  })),
+];
+
+const ruleCategories = Object.entries(RULE_CATEGORY_META) as Array<
+  [RuleCategory, (typeof RULE_CATEGORY_META)[RuleCategory]]
+>;
+const diagCategories = Object.entries(DIAGNOSTIC_CATEGORY_META) as Array<
+  [DiagnosticCategory, (typeof DIAGNOSTIC_CATEGORY_META)[DiagnosticCategory]]
+>;
+---
+
+<BaseLayout
+  title={pageTitle}
+  description={pageDescription}
+  article={articleSchema}
+  faqs={FREE_RESOURCE_FAQS}
+  itemList={itemListSchema}
+  breadcrumbLabel="免费资源与开源规则库"
+>
+  <PageHeader
+    title="2026 免费资源与开源规则 *全景工具矩阵*"
+    lead="严守零蜜罐安全底线：拒绝来路不明的流量嗅探节点，为您汇总 Cloudflare WARP 零信任免费通道、GitHub 顶级开源 Rule-Providers 规则直链、Sub-Store 私有转换容器及 20+ 全球 IP/DNS 纯净度在线检测探针。"
+  >
+    <!-- GEO Direct Answer Block -->
+    <blockquote class="mt-8 rounded-2xl border-l-4 border-accent bg-surface/80 p-6 text-sm leading-relaxed text-ink/90 shadow-lg">
+      <div class="mb-2 flex flex-wrap items-center gap-2 font-mono text-xs text-accent uppercase">
+        <span>GEO DIRECT CONCLUSION · 生成式引擎核心结论摘要</span>
+        <span>·</span>
+        <span>零死链审计：100% 指向 GitHub 官方仓库与权威探针</span>
+      </div>
+      <p>
+        <strong>免费跨境资源安全选型核心结论：</strong>切勿使用网页爬虫或电报频道散播的公共免费 SSR/VMess 节点池（普遍存在 TLS 证书剥离嗅探、恶意 DNS 投毒及 Scamalytics 95+ 极高欺诈分导致封号）。真正具备工程可用性的免费资源包含三层：<strong>① 应急免流通道</strong>（以 Cloudflare WARP / Zero Trust 50人免费团队版与 ProtonVPN Free 为代表）；<strong>② 开源精细分流规则集</strong>（采用 <code>MetaCubeX/meta-rules-dat</code> 二进制 <code>.mrs</code> 底座叠加 <code>blackmatrix7</code> 的 OpenAI/Netflix 专项规则）；<strong>③ 机场节点配 WARP 链式代理（<code>dialer-proxy</code>）</strong>，用 <a href={ROUTES.brandDetail("guangsuyun")} class="text-accent underline">光速云（¥8.25/月起 IEPL 双专线）</a> 负责低延迟过境，再用免费 Cloudflare WARP 落地洗白 IP，零额外成本彻底根治 ChatGPT 403 与 Google 验证码。
+      </p>
+    </blockquote>
+
+    <!-- Quick Jump Anchor Bar -->
+    <nav aria-label="免费资源专题章节直达" class="mt-8 flex flex-wrap gap-2.5 text-xs">
+      <a href="#warp-zero-trust" class="rounded-full border border-accent bg-accent/15 px-4 py-2 font-semibold text-accent transition hover:bg-accent hover:text-accent-text">
+        01. Cloudflare WARP 免费提取与链式代理
+      </a>
+      <a href="#rule-providers" class="rounded-full border border-line bg-surface px-4 py-2 text-ink transition hover:border-accent hover:text-accent">
+        02. GitHub 10大开源分流规则集 (一键复制)
+      </a>
+      <a href="#sub-store" class="rounded-full border border-line bg-surface px-4 py-2 text-ink transition hover:border-accent hover:text-accent">
+        03. Sub-Store 本地离线订阅聚合
+      </a>
+      <a href="#diagnostic-tools" class="rounded-full border border-line bg-surface px-4 py-2 text-ink transition hover:border-accent hover:text-accent">
+        04. 20+ 全球 IP/DNS/流媒体自检工具库
+      </a>
+      <a href="#honeypot-audit" class="rounded-full border border-line bg-surface px-4 py-2 text-ink transition hover:border-accent hover:text-accent">
+        05. 公共免费节点蜜罐识别与安全防线
+      </a>
+      <a href="#low-cost-trials" class="rounded-full border border-line bg-surface px-4 py-2 text-ink transition hover:border-accent hover:text-accent">
+        06. ¥5.6~¥19.9 正规专线低门槛验货包
+      </a>
+    </nav>
+  </PageHeader>
+
+  <div class="container-x pb-20">
+    <!-- SECTION 1: 6 Legitimate Free Emergency Channels + WARP Mihomo Chain YAML -->
+    <section id="warp-zero-trust" class="mt-10 scroll-mt-28" aria-labelledby="warp-heading">
+      <p class="font-mono text-xs text-accent uppercase">SECTION 01 · LEGITIMATE FREE CHANNELS & WARP DIALER-PROXY</p>
+      <h2 id="warp-heading" class="mt-1 text-2xl font-semibold text-ink sm:text-3xl">
+        六大合法免费跨境通道与 Cloudflare WARP+ 链式代理洗白教程
+      </h2>
+      <p class="mt-2 text-sm text-muted">
+        以下 6 类方案均来自全球知名基础设施上市公司或开源端到端加密网络，适合作为主力专线断网时的救急底座或链式落地出口：
+      </p>
+
+      <div class="mt-6 grid gap-6 lg:grid-cols-2">
+        {
+          FREE_EMERGENCY_CHANNELS.map((ch) => (
+            <article class="flex flex-col justify-between rounded-2xl border border-line bg-surface p-6 transition hover:border-accent/50">
+              <div>
+                <div class="flex flex-wrap items-center justify-between gap-2">
+                  <span class="rounded-full border border-accent/40 bg-accent/10 px-3 py-0.5 font-mono text-xs text-accent">
+                    {ch.securityRating}
+                  </span>
+                  <span class="font-mono text-xs text-emerald-300">免费额度：{ch.freeQuota}</span>
+                </div>
+
+                <h3 class="mt-3 text-lg font-semibold text-ink">
+                  <a href={ch.officialUrl} target="_blank" rel="nofollow noopener noreferrer" class="hover:text-accent">
+                    {ch.name} ↗
+                  </a>
+                </h3>
+                <p class="mt-1 text-xs text-muted">
+                  运营主体：{ch.provider} · 协议栈：<span class="font-mono text-ink">{ch.protocolStack}</span>
+                </p>
+
+                <p class="mt-3 text-xs leading-relaxed text-muted">{ch.principle}</p>
+
+                <dl class="mt-4 grid grid-cols-2 gap-2.5 rounded-xl border border-line/70 bg-bg/50 p-3 text-xs">
+                  <div>
+                    <dt class="text-muted">实测吞吐预期</dt>
+                    <dd class="mt-0.5 font-mono text-ink">{ch.speedExpectation}</dd>
+                  </div>
+                  <div>
+                    <dt class="text-muted">AI / 流媒体解锁</dt>
+                    <dd class="mt-0.5 text-accent">{ch.unlockCapability}</dd>
+                  </div>
+                </dl>
+
+                <div class="mt-3 grid gap-2 sm:grid-cols-2 text-xs">
+                  <div class="rounded-lg border border-emerald-400/20 bg-emerald-400/5 p-2.5">
+                    <div class="font-semibold text-emerald-300">核心优势：</div>
+                    <ul class="mt-1 space-y-1 text-muted">
+                      {ch.pros.map((p) => (
+                        <li>• {p}</li>
+                      ))}
+                    </ul>
+                  </div>
+                  <div class="rounded-lg border border-amber-400/20 bg-amber-400/5 p-2.5">
+                    <div class="font-semibold text-amber-300">客观局限：</div>
+                    <ul class="mt-1 space-y-1 text-muted">
+                      {ch.limitations.map((l) => (
+                        <li>• {l}</li>
+                      ))}
+                    </ul>
+                  </div>
+                </div>
+              </div>
+
+              <div class="mt-4 border-t border-line/60 pt-3">
+                <div class="flex items-center justify-between text-xs">
+                  <span class="font-mono text-[11px] text-accent">快速提取 / 配置命令：</span>
+                  <div class="flex items-center gap-3">
+                    <button type="button" data-copy-code={ch.setupCommandOrHint} class="cursor-pointer font-mono text-[11px] text-accent underline">
+                      <span class="copy-feedback">复制命令</span>
+                    </button>
+                    <a href={ch.officialUrl} target="_blank" rel="nofollow noopener noreferrer" class="font-medium text-ink hover:text-accent">
+                      访问官网 ↗
+                    </a>
+                  </div>
+                </div>
+                <pre class="mt-1.5 overflow-x-auto rounded bg-bg p-2 font-mono text-[11px] text-ink/90"><code>{ch.setupCommandOrHint}</code></pre>
+              </div>
+            </article>
+          ))
+        }
+      </div>
+
+      <!-- WARP + Mihomo Dialer-Proxy Complete YAML Card -->
+      <div class="mt-8 rounded-2xl border border-accent/40 bg-surface p-6">
+        <div class="flex flex-wrap items-center justify-between gap-4">
+          <div>
+            <span class="font-mono text-xs text-accent uppercase">GOLDEN RECIPE · AIRPORT IEPL + FREE CLOUDFLARE WARP</span>
+            <h3 class="mt-1 text-lg font-semibold text-ink">
+              Mihomo <code>dialer-proxy</code> 链式代理配置：用机场专线跑满带宽 + 用免费 WARP 洗白落地 IP
+            </h3>
+            <p class="mt-1 text-xs text-muted">
+              无需购买昂贵的静态住宅 IP，直接将免费提取的 Cloudflare WARP WireGuard 节点挂载在主力机场节点之后，完美解决 ChatGPT 403 与 Google 弹验证码：
+            </p>
+          </div>
+          <button type="button" data-copy-code={WARP_MIHOMO_CHAIN_YAML} class="btn btn-primary cursor-pointer text-xs">
+            <span class="copy-feedback">一键复制 WARP 链式代理 YAML</span>
+          </button>
+        </div>
+        <pre class="mt-4 max-h-[380px] overflow-auto rounded-xl border border-line bg-bg p-4 font-mono text-xs leading-relaxed text-ink/90"><code>{WARP_MIHOMO_CHAIN_YAML}</code></pre>
+      </div>
+    </section>
+
+    <!-- SECTION 2: 10 Authoritative GitHub Open-Source Rule-Providers -->
+    <section id="rule-providers" class="mt-20 scroll-mt-28 border-t border-line pt-14" aria-labelledby="rules-heading">
+      <div class="flex flex-col md:flex-row md:items-end justify-between gap-4">
+        <div>
+          <p class="font-mono text-xs text-accent uppercase">SECTION 02 · GITHUB OPEN-SOURCE RULE-PROVIDERS</p>
+          <h2 id="rules-heading" class="mt-1 text-2xl font-semibold text-ink sm:text-3xl">
+            GitHub 10 大权威开源分流规则集（MetaCubeX / Loyalsoldier / Blackmatrix7）
+          </h2>
+        </div>
+        <p class="font-mono text-xs text-muted">
+          当前显示：<strong id="rule-match-count" class="text-accent">{OPEN_SOURCE_RULE_PROVIDERS.length}</strong> / {OPEN_SOURCE_RULE_PROVIDERS.length} 组规则集
+        </p>
+      </div>
+
+      <!-- Rule Filter Bar -->
+      <div class="mt-6 rounded-2xl border border-line bg-surface p-5">
+        <div class="grid gap-4 md:grid-cols-12">
+          <div class="md:col-span-4">
+            <label for="rule-search" class="block text-xs text-muted">搜索规则集名称 / 适用服务 (OpenAI/Netflix/Telegram)</label>
+            <input
+              id="rule-search"
+              type="search"
+              placeholder="输入关键词如：mrs、OpenAI、TikTok、去广告..."
+              class="mt-1.5 w-full rounded-xl border border-line bg-bg px-3.5 py-2 text-sm text-ink placeholder:text-muted/60 focus:border-accent focus:outline-none"
+            />
+          </div>
+          <div class="md:col-span-8 flex flex-wrap items-end gap-2">
+            <button type="button" data-rule-cat="all" class="rule-pill cursor-pointer rounded-xl border border-accent bg-accent px-3.5 py-2 text-xs font-semibold text-accent-text">
+              全部 10 组规则
+            </button>
+            {
+              ruleCategories.map(([catKey, meta]) => (
+                <button
+                  type="button"
+                  data-rule-cat={catKey}
+                  class="rule-pill cursor-pointer rounded-xl border border-line bg-bg px-3.5 py-2 text-xs text-ink hover:border-accent"
+                >
+                  {meta.label.split(" (")[0]}
+                </button>
+              ))
+            }
+          </div>
+        </div>
+      </div>
+
+      <!-- 10 Rule-Provider Cards -->
+      <div class="mt-6 grid gap-6 lg:grid-cols-2" id="rules-grid">
+        {
+          OPEN_SOURCE_RULE_PROVIDERS.map((rule) => {
+            const catMeta = RULE_CATEGORY_META[rule.category];
+            return (
+              <article
+                data-rule-card
+                data-cat={rule.category}
+                data-search={`${rule.name} ${rule.repoName} ${rule.author} ${rule.summary} ${rule.yamlSnippet}`.toLowerCase()}
+                class="flex flex-col justify-between rounded-2xl border border-line bg-surface p-6 transition hover:border-accent/50"
+              >
+                <div>
+                  <div class="flex flex-wrap items-center justify-between gap-2">
+                    <span class:list={["rounded-full border px-2.5 py-0.5 text-[11px]", catMeta.badgeClass]}>
+                      {rule.categoryLabel}
+                    </span>
+                    <span class="font-mono text-xs text-muted">
+                      格式：<strong class="text-accent">{rule.format}</strong> · 规模：{rule.ruleScale}
+                    </span>
+                  </div>
+
+                  <h3 class="mt-3 text-lg font-semibold text-ink">
+                    <a href={rule.githubUrl} target="_blank" rel="nofollow noopener noreferrer" class="hover:text-accent">
+                      {rule.name} ↗
+                    </a>
+                  </h3>
+                  <p class="mt-0.5 font-mono text-xs text-muted">
+                    GitHub 仓库：{rule.repoName} · 维护者：{rule.author} · 更新周期：{rule.updateInterval}
+                  </p>
+
+                  <p class="mt-3 text-xs leading-relaxed text-muted">{rule.summary}</p>
+                  <p class="mt-2 text-xs leading-relaxed text-ink/90">
+                    <strong class="text-emerald-300">架构优势：</strong>{rule.technicalAdvantage}
+                  </p>
+                  <p class="mt-1.5 text-xs leading-relaxed text-amber-300/90">
+                    <strong>配置避坑：</strong>{rule.pitfallNote}
+                  </p>
+                </div>
+
+                <div class="mt-4 border-t border-line/60 pt-3">
+                  <div class="flex items-center justify-between text-xs">
+                    <span class="font-mono text-[11px] text-accent">Mihomo rule-providers 引用代码：</span>
+                    <div class="flex items-center gap-3">
+                      <button
+                        type="button"
+                        data-copy-code={rule.yamlSnippet}
+                        class="cursor-pointer rounded bg-accent px-2.5 py-1 font-mono text-[11px] font-bold text-accent-text hover:opacity-90"
+                      >
+                        <span class="copy-feedback">一键复制 YAML</span>
+                      </button>
+                      <a href={rule.githubUrl} target="_blank" rel="nofollow noopener noreferrer" class="text-xs text-muted underline hover:text-accent">
+                        GitHub 源码 ↗
+                      </a>
+                    </div>
+                  </div>
+                  <pre class="mt-2 overflow-x-auto rounded-xl border border-line bg-bg p-3 font-mono text-[11px] leading-relaxed text-ink/90"><code>{rule.yamlSnippet}</code></pre>
+                </div>
+              </article>
+            );
+          })
+        }
+      </div>
+    </section>
+
+    <!-- SECTION 3: Sub-Store & Subconverter Local Privacy Deployment -->
+    <section id="sub-store" class="mt-20 scroll-mt-28 border-t border-line pt-14" aria-labelledby="substore-heading">
+      <p class="font-mono text-xs text-accent uppercase">SECTION 03 · PRIVATE SUBSCRIPTION AGGREGATION</p>
+      <h2 id="substore-heading" class="mt-1 text-2xl font-semibold text-ink sm:text-3xl">
+        Sub-Store 与 Subconverter 本地离线部署：多机场订阅聚合与防盗指南
+      </h2>
+
+      <div class="mt-6 grid gap-6 lg:grid-cols-12">
+        <div class="lg:col-span-6 rounded-2xl border border-line bg-surface p-6">
+          <h3 class="text-lg font-semibold text-rose-300">
+            安全红线：为什么绝不能把主力机场订阅贴到未知「在线转换网站」？
+          </h3>
+          <p class="mt-3 text-xs leading-relaxed text-muted">
+            您的机场订阅链接（Subscription URL）中直接内嵌了唯一的鉴权 Token。当您使用搜索引擎随便搜出的第三方公共在线转换网站时，对方后端的 Nginx 日志会明文截获您的完整订阅链接。这也是为什么许多用户的百 G 专线流量会在短短几天内被刷空，甚至因并发 IP 过多被机场封禁。
+          </p>
+          <ul class="mt-4 space-y-2 text-xs text-ink/90">
+            <li>• <strong>方案 A（零转换直连）：</strong>直接使用本站 <a href={ROUTES.clients} class="text-accent underline">客户端中心</a> 的 Clash Verge Rev、FlClash 或 Hiddify，内置 Mihomo/Sing-box 内核原生支持 VLESS / Trojan / Hysteria 2，根本无需在线转换。</li>
+            <li>• <strong>方案 B（本地 Docker 私有化）：</strong>使用右侧 Docker Compose 配置在本地 <code>127.0.0.1</code> 启动开源 <a href="https://github.com/sub-store-org/Sub-Store" target="_blank" rel="nofollow noopener noreferrer" class="text-accent underline">Sub-Store ↗</a>，支持正则剔除高倍率节点、自动添加国旗 Emoji 并合并主备双机场订阅。</li>
+          </ul>
+        </div>
+
+        <div class="lg:col-span-6 rounded-2xl border border-accent/40 bg-surface p-6">
+          <div class="flex items-center justify-between">
+            <span class="font-mono text-xs text-accent">docker-compose.yml (仅监听本地 127.0.0.1)</span>
+            <button type="button" data-copy-code={SUBSTORE_DOCKER_COMPOSE_YAML} class="cursor-pointer font-mono text-xs text-accent underline">
+              <span class="copy-feedback">复制 Docker 配置</span>
+            </button>
+          </div>
+          <pre class="mt-3 overflow-x-auto rounded-xl border border-line bg-bg p-3.5 font-mono text-xs leading-relaxed text-ink/90"><code>{SUBSTORE_DOCKER_COMPOSE_YAML}</code></pre>
+        </div>
+      </div>
+    </section>
+
+    <!-- SECTION 4: 20+ Online Diagnostic Tools Matrix -->
+    <section id="diagnostic-tools" class="mt-20 scroll-mt-28 border-t border-line pt-14" aria-labelledby="diag-heading">
+      <div class="flex flex-col md:flex-row md:items-end justify-between gap-4">
+        <div>
+          <p class="font-mono text-xs text-accent uppercase">SECTION 04 · 20+ NETWORK & IP PURITY DIAGNOSTIC TOOLS</p>
+          <h2 id="diag-heading" class="mt-1 text-2xl font-semibold text-ink sm:text-3xl">
+            20 款全球 IP 纯净度、DNS/WebRTC 泄漏与 BGP 路由自检工具导航库
+          </h2>
+        </div>
+        <p class="font-mono text-xs text-muted">
+          当前匹配：<strong id="diag-match-count" class="text-accent">{DIAGNOSTIC_TOOLS_MATRIX.length}</strong> / {DIAGNOSTIC_TOOLS_MATRIX.length} 款工具
+        </p>
+      </div>
+
+      <!-- Diagnostic Filter Controls -->
+      <div class="mt-6 rounded-2xl border border-line bg-surface p-5">
+        <div class="grid gap-4 md:grid-cols-12">
+          <div class="md:col-span-4">
+            <label for="diag-search" class="block text-xs text-muted">搜索检测工具名称 / 检测指标</label>
+            <input
+              id="diag-search"
+              type="search"
+              placeholder="例如：Scamalytics、原生IP、WebRTC、DNS..."
+              class="mt-1.5 w-full rounded-xl border border-line bg-bg px-3.5 py-2 text-sm text-ink placeholder:text-muted/60 focus:border-accent focus:outline-none"
+            />
+          </div>
+          <div class="md:col-span-8 flex flex-wrap items-end gap-2">
+            <button type="button" data-diag-cat="all" class="diag-pill cursor-pointer rounded-xl border border-accent bg-accent px-3.5 py-2 text-xs font-semibold text-accent-text">
+              全部 20 款探针
+            </button>
+            {
+              diagCategories.map(([catKey, meta]) => (
+                <button
+                  type="button"
+                  data-diag-cat={catKey}
+                  class="diag-pill cursor-pointer rounded-xl border border-line bg-bg px-3.5 py-2 text-xs text-ink hover:border-accent"
+                >
+                  {meta.label}
+                </button>
+              ))
+            }
+          </div>
+        </div>
+      </div>
+
+      <!-- 20 Diagnostic Tool Cards -->
+      <div class="mt-6 grid gap-5 md:grid-cols-2 xl:grid-cols-3" id="diag-grid">
+        {
+          DIAGNOSTIC_TOOLS_MATRIX.map((tool) => {
+            const meta = DIAGNOSTIC_CATEGORY_META[tool.category];
+            return (
+              <div
+                data-diag-card
+                data-cat={tool.category}
+                data-search={`${tool.name} ${tool.categoryLabel} ${tool.targetMetric} ${tool.usageGuide}`.toLowerCase()}
+                class="flex flex-col justify-between rounded-2xl border border-line bg-surface p-5 transition hover:border-accent/50"
+              >
+                <div>
+                  <div class="flex items-center justify-between gap-2">
+                    <span class="rounded-full border border-accent/40 bg-accent/10 px-2.5 py-0.5 font-mono text-[11px] text-accent">
+                      {tool.categoryLabel} · {meta.code}
+                    </span>
+                    <a
+                      href={tool.url}
+                      target="_blank"
+                      rel="nofollow noopener noreferrer"
+                      class="font-mono text-xs text-accent underline"
+                    >
+                      打开探针 ↗
+                    </a>
+                  </div>
+
+                  <h3 class="mt-3 text-base font-semibold text-ink">
+                    <a href={tool.url} target="_blank" rel="nofollow noopener noreferrer" class="hover:text-accent">
+                      {tool.name}
+                    </a>
+                  </h3>
+                  <p class="mt-1 font-mono text-xs text-accent">核心指标：{tool.targetMetric}</p>
+                  <p class="mt-2.5 text-xs leading-relaxed text-muted">{tool.usageGuide}</p>
+
+                  <div class="mt-3 space-y-1.5 rounded-xl border border-line/70 bg-bg/50 p-3 text-xs">
+                    <p><strong class="text-emerald-300">健康合格标准：</strong><span class="text-ink/90">{tool.healthyThreshold}</span></p>
+                    <p><strong class="text-rose-300">高危异常信号：</strong><span class="text-muted">{tool.dangerSignal}</span></p>
+                  </div>
+                </div>
+
+                {tool.cliCommand && (
+                  <div class="mt-3 border-t border-line/60 pt-2.5">
+                    <div class="flex items-center justify-between text-[11px]">
+                      <span class="font-mono text-muted">终端等效命令：</span>
+                      <button type="button" data-copy-code={tool.cliCommand} class="cursor-pointer font-mono text-accent underline">
+                        <span class="copy-feedback">复制</span>
+                      </button>
+                    </div>
+                    <pre class="mt-1 overflow-x-auto rounded bg-bg p-1.5 font-mono text-[11px] text-ink/90"><code>{tool.cliCommand}</code></pre>
+                  </div>
+                )}
+              </div>
+            );
+          })
+        }
+      </div>
+    </section>
+
+    <!-- SECTION 5: Public Scraper Nodes Honeypot Security Audit -->
+    <section id="honeypot-audit" class="mt-20 scroll-mt-28 border-t border-line pt-14" aria-labelledby="honeypot-heading">
+      <p class="font-mono text-xs text-accent uppercase">SECTION 05 · PUBLIC NODE SECURITY AUDIT</p>
+      <h2 id="honeypot-heading" class="mt-1 text-2xl font-semibold text-ink sm:text-3xl">
+        公共免费节点池（Public Scraper Nodes）底层安全审计与蜜罐识别树
+      </h2>
+      <pre class="mt-6 overflow-x-auto rounded-2xl border border-line bg-surface p-5 font-mono text-xs leading-relaxed text-ink/90"><code>┌────────────────────────────────────────────────────────────────────────────┐
+│ 警告：当你导入网上抓取的『每日免费 Clash 节点池』时，流量在出口经历了什么？ │
+└─────────────────────────────────────┬──────────────────────────────────────┘
+                                      ▼
+  ┌────────────────────────────────────────────────────────────────────────┐
+  │ 风险 01：节点配置含 skip-cert-verify: true（跳过 TLS 证书校验）         │
+  │ → 恶意外网出口可直接实施 SSL Strip 中间人嗅探，截获 Cookie 与 API Key   │
+  ├────────────────────────────────────────────────────────────────────────┤
+  │ 风险 02：远程恶意 DNS 劫持（DNS Poisoning at Exit）                     │
+  │ → 将 binance.com / github.com / 网页钱包解析至高仿钓鱼服务器盗取资产    │
+  ├────────────────────────────────────────────────────────────────────────┤
+  │ 风险 03：万人共用万人骑 IP（Scamalytics 欺诈分 95~100）                  │
+  │ → 瞬间触发 OpenAI / Claude / Apple ID 风控连坐封号                      │
+  └────────────────────────────────────────────────────────────────────────┘</code></pre>
+    </section>
+
+    <!-- SECTION 6: 10 Ultra-Low-Cost Verified Dedicated Line Trial Packs -->
+    <section id="low-cost-trials" class="mt-20 scroll-mt-28 border-t border-line pt-14" aria-labelledby="trials-heading">
+      <p class="font-mono text-xs text-accent uppercase">SECTION 06 · VERIFIED ULTRA-LOW-COST ALTERNATIVES</p>
+      <h2 id="trials-heading" class="mt-1 text-2xl font-semibold text-ink sm:text-3xl">
+        告别高危免费节点：10 款月均 ¥5.6 起正规专线低门槛验货包对照表
+      </h2>
+      <p class="mt-2 text-sm text-muted">
+        与其冒着账号被盗与隐私裸奔的风险折腾劣质免费节点，不如用一杯矿泉水的预算（月均 ¥5.6–¥8.25 或一次性永久包）直接用上经过本站核验的 IEPL/IPLC 加密专线：
+      </p>
+
+      <div class="mt-6 overflow-x-auto rounded-2xl border border-line bg-surface p-6">
+        <table class="w-full min-w-[820px] text-left text-xs">
+          <thead>
+            <tr class="border-b border-line text-muted">
+              <th class="pb-3">排名与品牌</th>
+              <th class="pb-3">低门槛入门套餐</th>
+              <th class="pb-3">实付价格 / 折算月费</th>
+              <th class="pb-3">流量配额</th>
+              <th class="pb-3">线路架构与协议</th>
+              <th class="pb-3">常驻优惠码</th>
+              <th class="pb-3">相比免费节点的核心优势</th>
+              <th class="pb-3">详情评测</th>
+            </tr>
+          </thead>
+          <tbody class="divide-y divide-line/60">
+            {
+              LOW_BARRIER_TRIAL_PACKS.map((pack, idx) => (
+                <tr class={idx === 0 ? "bg-accent/8" : ""}>
+                  <td class="py-3.5">
+                    <div class="font-mono text-[11px] text-accent">{pack.rankNote}</div>
+                    <a href={ROUTES.brandDetail(pack.slug)} class="font-semibold text-ink hover:text-accent">
+                      {pack.name}
+                    </a>
+                  </td>
+                  <td class="py-3.5 text-ink">{pack.packName}</td>
+                  <td class="py-3.5 font-mono">
+                    <strong class="text-accent">{pack.priceLabel}</strong>
+                    <div class="text-[11px] text-muted">{pack.monthlyEquivalent}</div>
+                  </td>
+                  <td class="py-3.5 font-mono text-ink">{pack.trafficQuota}</td>
+                  <td class="py-3.5 text-muted">
+                    <div>{pack.lineArchitecture}</div>
+                    <div class="font-mono text-[11px] text-accent">{pack.protocol}</div>
+                  </td>
+                  <td class="py-3.5 font-mono text-emerald-300">{pack.couponCode}</td>
+                  <td class="py-3.5 max-w-xs text-muted">{pack.whyBetterThanFree}</td>
+                  <td class="py-3.5">
+                    <a href={ROUTES.brandDetail(pack.slug)} class="font-medium text-accent underline">
+                      查看档案 →
+                    </a>
+                  </td>
+                </tr>
+              ))
+            }
+          </tbody>
+        </table>
+      </div>
+    </section>
+
+    <!-- SECTION 7: 10 Visible Long-Tail FAQs -->
+    <section id="free-faq" class="mt-20 scroll-mt-28 border-t border-line pt-14" aria-labelledby="f-faq-heading">
+      <p class="font-mono text-xs text-accent uppercase">SECTION 07 · FREE RESOURCES & RULES FAQ</p>
+      <h2 id="f-faq-heading" class="mt-1 text-2xl font-semibold text-ink sm:text-3xl">
+        关于免费节点安全、Cloudflare WARP 与开源规则集的 10 个核心问答
+      </h2>
+      <div class="mt-6 grid gap-5 md:grid-cols-2">
+        {
+          FREE_RESOURCE_FAQS.map((faq) => (
+            <details open class="group rounded-2xl border border-line bg-surface p-6">
+              <summary class="flex cursor-pointer list-none items-start justify-between gap-3">
+                <h3 class="text-base font-semibold text-ink group-hover:text-accent">{faq.q}</h3>
+                <span class="shrink-0 font-mono text-xs text-muted group-open:text-accent">展开/收起</span>
+              </summary>
+              <p class="mt-3 border-t border-line/60 pt-3 text-xs leading-relaxed text-muted">{faq.a}</p>
+            </details>
+          ))
+        }
+      </div>
+    </section>
+  </div>
+
+  <TopicMatrixNav />
+</BaseLayout>
+
+<script>
+  // 1. Rule-Providers Filter
+  const ruleSearch = document.getElementById("rule-search") as HTMLInputElement | null;
+  const rulePills = Array.from(document.querySelectorAll<HTMLButtonElement>("[data-rule-cat]"));
+  const ruleCards = Array.from(document.querySelectorAll<HTMLElement>("[data-rule-card]"));
+  const ruleCount = document.getElementById("rule-match-count");
+  let activeRuleCat = "all";
+
+  function applyRuleFilter() {
+    const q = (ruleSearch?.value ?? "").trim().toLowerCase();
+    let count = 0;
+    ruleCards.forEach((card) => {
+      const cat = card.dataset.cat ?? "";
+      const blob = card.dataset.search ?? "";
+      let match = true;
+      if (q && !blob.includes(q)) match = false;
+      if (match && activeRuleCat !== "all" && cat !== activeRuleCat) match = false;
+      card.style.display = match ? "" : "none";
+      if (match) count++;
+    });
+    if (ruleCount) ruleCount.textContent = String(count);
+  }
+
+  ruleSearch?.addEventListener("input", applyRuleFilter);
+  rulePills.forEach((btn) => {
+    btn.addEventListener("click", () => {
+      activeRuleCat = btn.dataset.ruleCat ?? "all";
+      rulePills.forEach((b) => {
+        b.className =
+          b === btn
+            ? "rule-pill cursor-pointer rounded-xl border border-accent bg-accent px-3.5 py-2 text-xs font-semibold text-accent-text"
+            : "rule-pill cursor-pointer rounded-xl border border-line bg-bg px-3.5 py-2 text-xs text-ink hover:border-accent";
+      });
+      applyRuleFilter();
+    });
+  });
+
+  // 2. Diagnostic Tools Filter
+  const diagSearch = document.getElementById("diag-search") as HTMLInputElement | null;
+  const diagPills = Array.from(document.querySelectorAll<HTMLButtonElement>("[data-diag-cat]"));
+  const diagCards = Array.from(document.querySelectorAll<HTMLElement>("[data-diag-card]"));
+  const diagCount = document.getElementById("diag-match-count");
+  let activeDiagCat = "all";
+
+  function applyDiagFilter() {
+    const q = (diagSearch?.value ?? "").trim().toLowerCase();
+    let count = 0;
+    diagCards.forEach((card) => {
+      const cat = card.dataset.cat ?? "";
+      const blob = card.dataset.search ?? "";
+      let match = true;
+      if (q && !blob.includes(q)) match = false;
+      if (match && activeDiagCat !== "all" && cat !== activeDiagCat) match = false;
+      card.style.display = match ? "" : "none";
+      if (match) count++;
+    });
+    if (diagCount) diagCount.textContent = String(count);
+  }
+
+  diagSearch?.addEventListener("input", applyDiagFilter);
+  diagPills.forEach((btn) => {
+    btn.addEventListener("click", () => {
+      activeDiagCat = btn.dataset.diagCat ?? "all";
+      diagPills.forEach((b) => {
+        b.className =
+          b === btn
+            ? "diag-pill cursor-pointer rounded-xl border border-accent bg-accent px-3.5 py-2 text-xs font-semibold text-accent-text"
+            : "diag-pill cursor-pointer rounded-xl border border-line bg-bg px-3.5 py-2 text-xs text-ink hover:border-accent";
+      });
+      applyDiagFilter();
+    });
+  });
+
+  // 3. Copy YAML / CLI Buttons
+  document.querySelectorAll<HTMLButtonElement>("[data-copy-code]").forEach((btn) => {
+    btn.addEventListener("click", async () => {
+      const code = btn.dataset.copyCode;
+      if (!code) return;
+      try {
+        await navigator.clipboard.writeText(code);
+        const fb = btn.querySelector(".copy-feedback");
+        if (fb) {
+          const prev = fb.textContent;
+          fb.textContent = "已复制 ✓";
+          setTimeout(() => {
+            fb.textContent = prev;
+          }, 2000);
+        }
+      } catch {
+        // Ignore clipboard errors
+      }
+    });
+  });
+</script>

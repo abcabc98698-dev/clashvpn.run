@@ -8,7 +8,7 @@
  */
 import { SITE } from "../../config";
 
-const lines = ["Answers from", "your own data"];
+const lines = ["ClashVPN 订阅", "与专线节点实测"];
 
 /** Counters step up like the reference: about one tick every 100 ms (400 ms for tiny numbers). */
 const ticks = (n: number) => (n <= 5 ? { n, ms: 400 } : n <= 25 ? { n, ms: 100 } : { n: Math.ceil(n / (n <= 100 ? 5 : 10)), ms: 100 });
@@ -24,7 +24,7 @@ const ticks = (n: number) => (n <= 5 ? { n, ms: 400 } : n <= 25 ? { n, ms: 100 }
       <span class="h1-line wipe-in">{lines[1]}<span class="hl">.</span></span>
     </h1>
     <div class="hero-lead fade-in">
-      <p class="lead">The record so far, in four numbers:</p>
+      <p class="lead">基于真实数据口径的 42 家机场品牌库与全平台客户端配置指南：</p>
       <span class="rule" aria-hidden="true"></span>
       <ul class="stats">
         {

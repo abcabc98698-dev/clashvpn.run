@@ -1,23 +1,23 @@
 ---
-/** 12. Final call to action: a small line, a heading that fills on scroll, and the accent button (it opens the contact form). */
+/** 12. Final call to action: a small line, a heading that fills on scroll, and the accent button. */
 import FillLines from "../FillLines.astro";
 import { SITE } from "../../config";
 ---
 
 <section class="final-cta" aria-labelledby="cta-title">
   <div class="container-x cta-col">
-    <p class="cta-kicker">Have a decision coming up?</p>
+    <p class="cta-kicker">准备好锁定适合您的稳定节点了吗？</p>
     <FillLines
       as="h2"
       id="cta-title"
       class="cta-title"
-      lines={["Tell us the *decision* you are stuck on.", "We will say on one call if *data can help*."]}
+      lines={["浏览 *42家机场* 实测档案，", "或查看榜首 *光速云* 深度评测。"]}
       ranges={[
         [20, 50],
         [30, 60],
       ]}
     />
-    <a href={SITE.cta.href} class="btn btn-primary cta-btn">Get started</a>
+    <a href={SITE.cta.href} class="btn btn-primary cta-btn">进入机场品牌库</a>
   </div>
 </section>
 
